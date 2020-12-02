@@ -6,6 +6,7 @@
 
 enum NodeType
 {
+	NODE_PROGRAM,
     NODE_CONST, 
     NODE_VAR,
     NODE_EXPR,
