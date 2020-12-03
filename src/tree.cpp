@@ -36,11 +36,28 @@ TreeNode::TreeNode(int lineno, NodeType type) {
 }
 
 void TreeNode::genNodeId() {
+	int my_nodeID=0;
+	queue<TreeNode*> q;
 	TreeNode* temp;
-
-	if(this->child!=nullptr)
+	TreeNode* temp_2;
+	q.push(this);
+	this->nodeID=my_nodeID;
+	temp=this->child;
+	while(q.empty()==0)
 	{
-		;
+		temp=q.front()->child;
+		q.front()->nodeID=my_nodeID++;
+		q.pop();
+		if(temp!=nullptr)
+		{
+			q.push(temp);
+			temp_2=temp;
+			while(temp_2->sibling!=nullptr)
+			{
+				q.push(temp_2->sibling);
+				temp_2=temp_2->sibling;
+			}
+		}
 	}
 }
 
@@ -53,7 +70,7 @@ void TreeNode::printChildrenId() {
 	temp=this->child;
 	if(temp==nullptr)
 	{
-		cout<<" ";
+		cout<<endl;
 	}
 	else
 	{
@@ -63,13 +80,14 @@ void TreeNode::printChildrenId() {
 			temp=temp->sibling;
 			cout<<temp->nodeID<<" ";
 		}
+		cout<<endl;
 	}
 }
 
 void TreeNode::printAST() {
 	TreeNode* ast_temp;
 	
-	cout<<this->nodeID;
+	cout<<this->nodeID<<"\t";
 	printSpecialInfo();
 	cout<<"\t"<<"child:";
 	printChildrenId();
@@ -81,6 +99,7 @@ void TreeNode::printAST() {
 		ast_temp->printAST();
 		while(ast_temp->sibling!=nullptr)
 		{
+			//ast_temp->printAST();
 			ast_temp=ast_temp->sibling;
 			ast_temp->printAST();
 		}
@@ -97,17 +116,17 @@ void TreeNode::printAST() {
 // You can output more info...
 void TreeNode::printSpecialInfo() {
     switch(this->nodeType){
-		case NODE_PROGRAM:cout<<"program"<<endl;
+		case NODE_PROGRAM:cout<<"program";
 			break;
-        case NODE_CONST:cout<<"const"<<endl;
+        case NODE_CONST:cout<<"const";
             break;
-        case NODE_VAR:cout<<"variable"<<endl;
+        case NODE_VAR:cout<<"variable";
             break;
-        case NODE_EXPR:cout<<"expression"<<endl;
+        case NODE_EXPR:cout<<"expression";
             break;
-        case NODE_STMT:cout<<"statement"<<endl;
+        case NODE_STMT:cout<<"statement";
             break;
-        case NODE_TYPE:cout<<"type"<<endl;
+        case NODE_TYPE:cout<<"type";
             break;
         default:
             break;

@@ -1,13 +1,13 @@
-0type
-	child: 0variable
-	child: 0const
-	child: 0statement
-	child:0 0 0 0type
-	child: 0variable
-	child: 0const
-	child: 0statement
-	child:0 0 0 0type
-	child: 0variable
-	child: 0const
-	child: 0statement
-	child:0 0 0 0	child:0 0 0 
+0	program	child:1 2 3 
+1	statement	child:4 5 6 
+4	type	child:
+5	variable	child:
+6	const	child:
+2	statement	child:7 8 9 
+7	type	child:
+8	variable	child:
+9	const	child:
+3	statement	child:10 11 12 
+10	type	child:
+11	variable	child:
+12	const	child:

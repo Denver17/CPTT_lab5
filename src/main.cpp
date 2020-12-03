@@ -22,8 +22,9 @@ int main(int argc, char *argv[])
     }
     yyparse();
     if(root != NULL) {
-		root->printSpecialInfo();
-        root->genNodeId();
+		//root->printSpecialInfo();
+        root->nodeType=NODE_PROGRAM;
+		root->genNodeId();
         root->printAST();
     }
     return 0;
