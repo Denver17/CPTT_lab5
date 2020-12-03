@@ -53,14 +53,30 @@ extern int yydebug;
     T_INT = 259,
     T_STRING = 260,
     T_BOOL = 261,
-    LOP_ASSIGN = 262,
+    ASSIGN = 262,
     SEMICOLON = 263,
     IDENTIFIER = 264,
     INTEGER = 265,
     CHAR = 266,
     BOOL = 267,
     STRING = 268,
-    LOP_EQ = 269
+    TRUE = 269,
+    FALSE = 270,
+    IF = 271,
+    ELSE = 272,
+    WHILE = 273,
+    EQ = 274,
+    ADD = 275,
+    SUB = 276,
+    MUL = 277,
+    DIV = 278,
+    UN = 279,
+    LPAREN = 280,
+    RPAREN = 281,
+    LSB = 282,
+    RSB = 283,
+    LBRACE = 284,
+    RBRACE = 285
   };
 #endif
 

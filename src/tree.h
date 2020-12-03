@@ -6,24 +6,36 @@
 
 enum NodeType
 {
-	NODE_PROGRAM,
+	NODE_PROG,
     NODE_CONST, 
     NODE_VAR,
     NODE_EXPR,
     NODE_TYPE,
+	NODE_OP,
+	NODE_BOOL,
 
     NODE_STMT,
-    NODE_PROG,
+    //NODE_PROGRAM,
 };
 
 enum OperatorType
 {
     OP_EQ,  // ==
+	OP_ADD, //+
+	OP_SUB, //-
+	OP_MUL, //*
+	OP_DIV, ///
+	OP_UN, //!
 };
 
 enum StmtType {
     STMT_SKIP,
     STMT_DECL,
+	STMT_IF,
+	STMT_WHILE,
+    STMT_ASSIGN,
+    STMT_PRINTF,
+    STMT_SCANF,
 }
 ;
 
@@ -45,7 +57,7 @@ public:
     void printAST(); // 先输出自己 + 孩子们的id；再依次让每个孩子输出AST。
     void printSpecialInfo();
 
-    void genNodeId();
+    void genNodeId(int& num);
 
 public:
     OperatorType optype;  // 如果是表达式

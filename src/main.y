@@ -8,15 +8,29 @@
 %}
 %token T_CHAR T_INT T_STRING T_BOOL 
 
-%token LOP_ASSIGN 
+%token ASSIGN 
 
 %token SEMICOLON
 
 %token IDENTIFIER INTEGER CHAR BOOL STRING
 
-%left LOP_EQ
+%token TRUE FALSE
+
+%token IF ELSE WHILE
+
+%left EQ
+
+%left ADD SUB 
+
+%left MUL DIV
+
+%right UN
+
+
+%token LPAREN RPAREN LSB RSB LBRACE RBRACE
 
 %%
+
 
 program
 : statements {root = new TreeNode(0, NODE_PROG); root->addChild($1);};
@@ -29,10 +43,27 @@ statements
 statement
 : SEMICOLON  {$$ = new TreeNode(lineno, NODE_STMT); $$->stype = STMT_SKIP;}
 | declaration SEMICOLON {$$ = $1;}
+| if_statement {$$=$1;}
 ;
 
+if_statement
+:  IF bool_statement statement ELSE statement{
+	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+    node->stype=STMT_IF;
+    node->addChild($2);
+    node->addChild($3);
+    node->addChild($5);
+    $$=node;
+}
+;
+
+bool_statement
+:  LPAREN bool_expr RPAREN {$$=$2;}
+;
+
+
 declaration
-: T IDENTIFIER LOP_ASSIGN expr{  // declare and init
+: T IDENTIFIER ASSIGN expr{  // declare and init
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_DECL;
     node->addChild($1);
@@ -49,8 +80,71 @@ declaration
 }
 ;
 
+bool_expr
+  : TRUE {$$=$1;}
+  | FALSE {$$=$1;}
+  | expr EQ expr {
+     TreeNode *node=new TreeNode($1->lineno,NODE_OP);
+     node->optype=OP_EQ;
+     node->addChild($1);
+     node->addChild($3);
+     $$=node;
+    }
+  | UN bool_expr {
+    TreeNode *node=new TreeNode($1->lineno,NODE_OP);
+    node->optype=OP_UN;
+    node->addChild($2);
+    $$=node;
+}
+;
+
 expr
-: IDENTIFIER {
+: expr ADD expr {
+	TreeNode* node = new TreeNode($1->lineno, NODE_EXPR);
+	node->optype=OP_ADD;
+    node->addChild($1);
+    node->addChild($3);
+    $$ = node;
+
+}
+|expr SUB expr {
+	TreeNode* node = new TreeNode($1->lineno, NODE_EXPR);
+    node->optype=OP_SUB;
+    node->addChild($1);
+    node->addChild($3);
+    $$ = node;
+
+}
+| expr MUL expr {
+	TreeNode* node = new TreeNode($1->lineno, NODE_EXPR);
+    node->optype=OP_MUL; 
+    node->addChild($1);
+    node->addChild($3);
+    $$ = node;
+
+}
+| expr DIV expr {
+	TreeNode* node = new TreeNode($1->lineno, NODE_EXPR);
+    node->optype=OP_DIV; 
+    node->addChild($1);
+    node->addChild($3);
+    $$ = node;
+
+}
+| UN expr {
+	TreeNode* node = new TreeNode($1->lineno, NODE_EXPR);
+	node->optype=OP_UN;
+	node->addSibling($2);
+	$$ = node;
+}
+| expr EQ expr {
+	TreeNode* node = new TreeNode($1->lineno, NODE_EXPR);
+	node->optype=OP_EQ;
+	node->addChild($1);
+	node->addChild($3);
+	$$ = node;
+}
+| IDENTIFIER {
     $$ = $1;
 }
 | INTEGER {
@@ -68,6 +162,9 @@ T: T_INT {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_INT;}
 | T_CHAR {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CHAR;}
 | T_BOOL {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_BOOL;}
 ;
+
+
+ 
 
 %%
 
