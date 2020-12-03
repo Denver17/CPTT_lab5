@@ -39,6 +39,16 @@ enum StmtType {
 }
 ;
 
+enum VarType{
+    VAR_INTEGER,
+    VAR_VOID,
+    //VAR_FLOAT,
+    VAR_CHAR,
+    VAR_STRING
+};
+
+
+
 struct TreeNode {
 public:
     int nodeID;  // 用于作业的序号输出

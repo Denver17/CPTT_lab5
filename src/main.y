@@ -6,6 +6,9 @@
     int yylex();
     int yyerror( char const * );
 %}
+
+%token PRINTF SCANF
+
 %token T_CHAR T_INT T_STRING T_BOOL 
 
 %token ASSIGN 
@@ -42,9 +45,16 @@ statements
 
 statement
 : SEMICOLON  {$$ = new TreeNode(lineno, NODE_STMT); $$->stype = STMT_SKIP;}
-| declaration SEMICOLON {$$ = $1;}
+| declaration {$$ = $1;}
 | if_statement {$$=$1;}
+| while_statement {$$=$1;}
+| LBRACE statements RBRACE {$$=$2;}
 ;
+
+statement_block
+    : LBRACE statements RBRACE
+    ;
+
 
 if_statement
 :  IF bool_statement statement ELSE statement{
@@ -57,13 +67,40 @@ if_statement
 }
 ;
 
+while_statement
+: WHILE bool_statement statement {
+    TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+    node->stype=STMT_WHILE;
+    node->addChild($2);
+    node->addChild($3);
+    $$=node;
+}
+;
+
 bool_statement
 :  LPAREN bool_expr RPAREN {$$=$2;}
 ;
 
+printf
+: PRINTF LPAREN expr RPAREN {
+    TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+    node->stmtType=STMT_PRINTF;
+    node->addChild($3);
+    $$=node;
+}
+;
+scanf
+: SCANF LPAREN expr RPAREN {
+    TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+    node->stmtType=STMT_SCANF;
+    node->addChild($3);
+    $$=node;
+}
+;
+
 
 declaration
-: T IDENTIFIER ASSIGN expr{  // declare and init
+: T IDENTIFIER ASSIGN expr SEMICOLON{  // declare and init
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_DECL;
     node->addChild($1);
@@ -71,12 +108,19 @@ declaration
     node->addChild($4);
     $$ = node;   
 } 
-| T IDENTIFIER {
+| T IDENTIFIER SEMICOLON{
     TreeNode* node = new TreeNode($1->lineno, NODE_STMT);
     node->stype = STMT_DECL;
     node->addChild($1);
     node->addChild($2);
     $$ = node;   
+}
+| IDENTIFIER ASSIGN expr SEMICOLON{
+	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+    node->stype=STMT_DECL;
+    node->addChild($1);
+    node->addChild($3);
+    $$=node;  
 }
 ;
 

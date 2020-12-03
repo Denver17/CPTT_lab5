@@ -1,6 +1,6 @@
 int a=0;
-int b=2;
-if(!2==3){
+int b=0;
+if (!2==3){
     int a=2;
     a=a+2;
 }

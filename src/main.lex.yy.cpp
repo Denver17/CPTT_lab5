@@ -355,8 +355,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 31
-#define YY_END_OF_BUFFER 32
+#define YY_NUM_RULES 30
+#define YY_END_OF_BUFFER 31
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -366,7 +366,7 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[70] =
     {   0,
-        0,    0,   32,   30,   28,   29,   29,   21,   30,   15,
+        0,    0,   31,   30,   28,   29,   29,   21,   30,   15,
        16,   13,   11,   12,   14,   25,   22,    9,   27,   17,
        18,   27,   27,   27,   27,   27,   27,   27,   19,   20,
        29,    0,   26,    0,    2,   25,   10,   27,   27,   27,
@@ -920,7 +920,7 @@ YY_RULE_SETUP
 {
     TreeNode* node = new TreeNode(lineno, NODE_CONST);
     node->type = TYPE_CHAR;
-    node->int_val = yytext[1];
+    node->ch_val = yytext[1];
     yylval = node;
     return CHAR;
 }
@@ -948,17 +948,10 @@ lineno++;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 116 "src/main.lex"
-{
-    cerr << "[line "<< lineno <<" ] unknown character:" << yytext << endl;
-}
-	YY_BREAK
-case 31:
-YY_RULE_SETUP
-#line 119 "src/main.lex"
+#line 117 "src/main.lex"
 ECHO;
 	YY_BREAK
-#line 962 "src/main.lex.yy.cpp"
+#line 955 "src/main.lex.yy.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1926,6 +1919,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 119 "src/main.lex"
+#line 117 "src/main.lex"
 
 
