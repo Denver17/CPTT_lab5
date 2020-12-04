@@ -98,6 +98,7 @@ void TreeNode::printSpecialInfo() {
     }
 }
 
+/*
 string TreeNode::sType2String(StmtType type) {
     return "?";
 }
@@ -106,3 +107,5 @@ string TreeNode::sType2String(StmtType type) {
 string TreeNode::nodeType2String (NodeType type){
     return "<>";
 }
+*/
+

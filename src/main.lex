@@ -67,6 +67,10 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 
 ";" return  SEMICOLON;
 
+"printf" return PRINTF;
+"scanf" return SCANF;
+
+
 
 "true" {
     TreeNode *node = new TreeNode(lineno,NODE_BOOL);

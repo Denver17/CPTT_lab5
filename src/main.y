@@ -30,6 +30,9 @@
 %right UN
 
 
+
+
+
 %token LPAREN RPAREN LSB RSB LBRACE RBRACE
 
 %%
@@ -49,11 +52,10 @@ statement
 | if_statement {$$=$1;}
 | while_statement {$$=$1;}
 | LBRACE statements RBRACE {$$=$2;}
+| printf SEMICOLON {$$=$1;}
+| scanf SEMICOLON {$$=$1;}
 ;
 
-statement_block
-    : LBRACE statements RBRACE
-    ;
 
 
 if_statement
@@ -63,6 +65,13 @@ if_statement
     node->addChild($2);
     node->addChild($3);
     node->addChild($5);
+    $$=node;
+}
+|IF bool_statement statement {
+    TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+    node->stype=STMT_IF;
+    node->addChild($2);
+    node->addChild($3);
     $$=node;
 }
 ;
@@ -84,7 +93,7 @@ bool_statement
 printf
 : PRINTF LPAREN expr RPAREN {
     TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
-    node->stmtType=STMT_PRINTF;
+    node->stype=STMT_PRINTF;
     node->addChild($3);
     $$=node;
 }
@@ -92,7 +101,7 @@ printf
 scanf
 : SCANF LPAREN expr RPAREN {
     TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
-    node->stmtType=STMT_SCANF;
+    node->stype=STMT_SCANF;
     node->addChild($3);
     $$=node;
 }
