@@ -2,10 +2,13 @@
 %{
 #include "common.h"
 #include "main.tab.h"  // yacc header
+#include <iostream>
+using namespace std;
 int lineno=1;
 %}
-BLOCKCOMMENT \/\*([^\*^\/]*|[\*^\/*]*|[^\**\/]*)*\*\/
-LINECOMMENT \/\/[^\n]*
+
+MAIN void\ main()
+
 EOL	(\r\n|\r|\n)
 WHILTESPACE [[:blank:]]
 
@@ -32,28 +35,47 @@ RBRACE "}"
 
 
 IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
+
+commentbegin "/*"
+commentelement .|\n
+commentend "*/"
+%x COMMENT
+
+linecommentbegin "//"
+linecommentelement .
+linecommentend \n
+%x LINECOMMENT
+
 %%
-
-{BLOCKCOMMENT}  /* do nothing */
-{LINECOMMENT}  /* do nothing */
-
+ 
 
 "int" return T_INT;
 "bool" return T_BOOL;
 "char" return T_CHAR;
+"void" return T_VOID;
 
 "if" return IF;
 "else" return ELSE;
 "while" return WHILE;
 
 "=" return ASSIGN;
+"+=" return ADD_ASSIGN;
+"-=" return SUB_ASSIGN;
 
 "==" return EQ;
+"!=" return UNEQ;
+">" return BIGGER;
+">=" return BIGGER_EQ;
+"<=" return SMALLER_EQ;
+"<" return SMALLER;
+"&&" return AND;
+"||" return OR;
 
 "+" return ADD;
 "-" return SUB;
 "*" return MUL;
 "/"	return DIV;
+"%" return MODULA;
 
 "(" return LPAREN;
 ")" return RPAREN;
@@ -64,11 +86,19 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 
 "!" return UN;
 
+"&" return GUIDE;
+
 
 ";" return  SEMICOLON;
+"," return COMMA;
 
 "printf" return PRINTF;
 "scanf" return SCANF;
+
+
+"void main()" {
+    cout<<"main"<<endl;
+}
 
 
 
@@ -116,6 +146,14 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 {WHILTESPACE} /* do nothing */
 
 {EOL} lineno++;
+
+{commentbegin} {BEGIN COMMENT;}
+<COMMENT>{commentelement} {}
+<COMMENT>{commentend} {BEGIN INITIAL;}
+
+{linecommentbegin} {BEGIN LINECOMMENT;}
+<LINECOMMENT>{linecommentelement} {}
+<LINECOMMENT>{linecommentend} {BEGIN INITIAL;}
 
 
 %%

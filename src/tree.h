@@ -26,6 +26,14 @@ enum OperatorType
 	OP_MUL, //*
 	OP_DIV, ///
 	OP_UN, //!
+	OP_MODULA,//%
+	OP_BIGGER,//>
+	OP_SMALLER,//<
+	OP_SMALLER_EQ,//<=
+	OP_BIGGER_EQ,//>=
+	OP_AND,//&&
+	OP_OR,//||
+	OP_UNEQ//!=
 };
 
 enum StmtType {

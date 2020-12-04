@@ -1,12 +1,33 @@
 终端机在文法中未使用
 
+    MAIN
+    GUIDE
     T_STRING
     BOOL
+    AND
     LSB
     RSB
 
 
-状态 45 冲突：1 项偏移/归约
+状态 34 冲突：1 项偏移/归约
+状态 59 冲突：1 项偏移/归约
+状态 60 冲突：1 项偏移/归约
+状态 72 冲突：1 项偏移/归约
+状态 73 冲突：6 项偏移/归约
+状态 87 冲突：6 项偏移/归约
+状态 88 冲突：1 项偏移/归约
+状态 89 冲突：1 项偏移/归约
+状态 90 冲突：1 项偏移/归约
+状态 91 冲突：1 项偏移/归约
+状态 92 冲突：1 项偏移/归约
+状态 93 冲突：2 项偏移/归约
+状态 94 冲突：1 项偏移/归约
+状态 95 冲突：6 项偏移/归约，1 项归约/归约
+状态 96 冲突：1 项偏移/归约
+状态 97 冲突：1 项偏移/归约
+状态 98 冲突：1 项偏移/归约
+状态 99 冲突：1 项偏移/归约
+状态 100 冲突：1 项偏移/归约
 
 
 语法
@@ -39,105 +60,139 @@
 
    17 declaration: T IDENTIFIER ASSIGN expr SEMICOLON
    18            | T IDENTIFIER SEMICOLON
-   19            | IDENTIFIER ASSIGN expr SEMICOLON
+   19            | T IDENTIFIERS SEMICOLON
+   20            | IDENTIFIER ASSIGN expr SEMICOLON
+   21            | IDENTIFIER ADD_ASSIGN expr SEMICOLON
+   22            | IDENTIFIER SUB_ASSIGN expr SEMICOLON
 
-   20 bool_expr: TRUE
-   21          | FALSE
-   22          | expr EQ expr
-   23          | UN bool_expr
+   23 IDENTIFIERS: IDENTIFIER COMMA IDENTIFIERS
+   24            | IDENTIFIER
 
-   24 expr: expr ADD expr
-   25     | expr SUB expr
-   26     | expr MUL expr
-   27     | expr DIV expr
-   28     | UN expr
-   29     | expr EQ expr
-   30     | IDENTIFIER
-   31     | INTEGER
-   32     | CHAR
-   33     | STRING
+   25 bool_expr: TRUE
+   26          | FALSE
+   27          | expr EQ expr
+   28          | UN bool_expr
+   29          | bool_expr OR bool_expr
+   30          | bool_expr ADD bool_expr
+   31          | expr UNEQ expr
+   32          | expr BIGGER expr
+   33          | expr SMALLER expr
+   34          | expr SMALLER_EQ expr
+   35          | expr BIGGER_EQ expr
 
-   34 T: T_INT
-   35  | T_CHAR
-   36  | T_BOOL
+   36 expr: expr ADD expr
+   37     | expr SUB expr
+   38     | expr MUL expr
+   39     | expr DIV expr
+   40     | expr MODULA expr
+   41     | UN expr
+   42     | SUB expr
+   43     | expr EQ expr
+   44     | IDENTIFIER
+   45     | INTEGER
+   46     | CHAR
+   47     | STRING
+
+   48 T: T_INT
+   49  | T_CHAR
+   50  | T_BOOL
+   51  | T_VOID
 
 
 终结语词，附有它们出现处的规则
 
     $end (0) 0
     error (256)
-    PRINTF (258) 15
-    SCANF (259) 16
-    T_CHAR (260) 35
-    T_INT (261) 34
-    T_STRING (262)
-    T_BOOL (263) 36
-    ASSIGN (264) 17 19
-    SEMICOLON (265) 4 9 10 17 18 19
-    IDENTIFIER (266) 17 18 19 30
-    INTEGER (267) 31
-    CHAR (268) 32
-    BOOL (269)
-    STRING (270) 33
-    TRUE (271) 20
-    FALSE (272) 21
-    IF (273) 11 12
-    ELSE (274) 11
-    WHILE (275) 13
-    EQ (276) 22 29
-    ADD (277) 24
-    SUB (278) 25
-    MUL (279) 26
-    DIV (280) 27
-    UN (281) 23 28
-    LPAREN (282) 14 15 16
-    RPAREN (283) 14 15 16
-    LSB (284)
-    RSB (285)
-    LBRACE (286) 8
-    RBRACE (287) 8
+    MAIN (258)
+    PRINTF (259) 15
+    SCANF (260) 16
+    GUIDE (261)
+    T_CHAR (262) 49
+    T_INT (263) 48
+    T_STRING (264)
+    T_BOOL (265) 50
+    T_VOID (266) 51
+    ASSIGN (267) 17 20
+    ADD_ASSIGN (268) 21
+    SUB_ASSIGN (269) 22
+    SEMICOLON (270) 4 9 10 17 18 19 20 21 22
+    COMMA (271) 23
+    IDENTIFIER (272) 17 18 20 21 22 23 24 44
+    INTEGER (273) 45
+    CHAR (274) 46
+    BOOL (275)
+    STRING (276) 47
+    AND (277)
+    OR (278) 29
+    TRUE (279) 25
+    FALSE (280) 26
+    IF (281) 11 12
+    ELSE (282) 11
+    WHILE (283) 13
+    EQ (284) 27 43
+    UNEQ (285) 31
+    BIGGER (286) 32
+    SMALLER (287) 33
+    BIGGER_EQ (288) 35
+    SMALLER_EQ (289) 34
+    ADD (290) 30 36
+    SUB (291) 37 42
+    MUL (292) 38
+    DIV (293) 39
+    MODULA (294) 40
+    UN (295) 28 41
+    LOWER_THEN_ELSE (296)
+    LPAREN (297) 14 15 16
+    RPAREN (298) 14 15 16
+    LSB (299)
+    RSB (300)
+    LBRACE (301) 8
+    RBRACE (302) 8
 
 
 非终结语词，附有它们出现处的规则
 
-    $accept (33)
+    $accept (48)
         on left: 0
-    program (34)
+    program (49)
         on left: 1
         on right: 0
-    statements (35)
+    statements (50)
         on left: 2 3
         on right: 1 3 8
-    statement (36)
+    statement (51)
         on left: 4 5 6 7 8 9 10
         on right: 2 3 11 12 13
-    if_statement (37)
+    if_statement (52)
         on left: 11 12
         on right: 6
-    while_statement (38)
+    while_statement (53)
         on left: 13
         on right: 7
-    bool_statement (39)
+    bool_statement (54)
         on left: 14
         on right: 11 12 13
-    printf (40)
+    printf (55)
         on left: 15
         on right: 9
-    scanf (41)
+    scanf (56)
         on left: 16
         on right: 10
-    declaration (42)
-        on left: 17 18 19
+    declaration (57)
+        on left: 17 18 19 20 21 22
         on right: 5
-    bool_expr (43)
-        on left: 20 21 22 23
-        on right: 14 23
-    expr (44)
-        on left: 24 25 26 27 28 29 30 31 32 33
-        on right: 15 16 17 19 22 24 25 26 27 28 29
-    T (45)
-        on left: 34 35 36
-        on right: 17 18
+    IDENTIFIERS (58)
+        on left: 23 24
+        on right: 19 23
+    bool_expr (59)
+        on left: 25 26 27 28 29 30 31 32 33 34 35
+        on right: 14 28 29 30
+    expr (60)
+        on left: 36 37 38 39 40 41 42 43 44 45 46 47
+        on right: 15 16 17 20 21 22 27 31 32 33 34 35 36 37 38 39 40 41 42 43
+    T (61)
+        on left: 48 49 50 51
+        on right: 17 18 19
 
 
 状态 0
@@ -149,92 +204,104 @@
     T_CHAR      偏移，并进入状态 3
     T_INT       偏移，并进入状态 4
     T_BOOL      偏移，并进入状态 5
-    SEMICOLON   偏移，并进入状态 6
-    IDENTIFIER  偏移，并进入状态 7
-    IF          偏移，并进入状态 8
-    WHILE       偏移，并进入状态 9
-    LBRACE      偏移，并进入状态 10
+    T_VOID      偏移，并进入状态 6
+    SEMICOLON   偏移，并进入状态 7
+    IDENTIFIER  偏移，并进入状态 8
+    IF          偏移，并进入状态 9
+    WHILE       偏移，并进入状态 10
+    LBRACE      偏移，并进入状态 11
 
-    program          转到状态 11
-    statements       转到状态 12
-    statement        转到状态 13
-    if_statement     转到状态 14
-    while_statement  转到状态 15
-    printf           转到状态 16
-    scanf            转到状态 17
-    declaration      转到状态 18
-    T                转到状态 19
+    program          转到状态 12
+    statements       转到状态 13
+    statement        转到状态 14
+    if_statement     转到状态 15
+    while_statement  转到状态 16
+    printf           转到状态 17
+    scanf            转到状态 18
+    declaration      转到状态 19
+    T                转到状态 20
 
 
 状态 1
 
    15 printf: PRINTF . LPAREN expr RPAREN
 
-    LPAREN  偏移，并进入状态 20
+    LPAREN  偏移，并进入状态 21
 
 
 状态 2
 
    16 scanf: SCANF . LPAREN expr RPAREN
 
-    LPAREN  偏移，并进入状态 21
+    LPAREN  偏移，并进入状态 22
 
 
 状态 3
 
-   35 T: T_CHAR .
+   49 T: T_CHAR .
 
-    $default  使用规则 35 以归约 (T)
+    $default  使用规则 49 以归约 (T)
 
 
 状态 4
 
-   34 T: T_INT .
+   48 T: T_INT .
 
-    $default  使用规则 34 以归约 (T)
+    $default  使用规则 48 以归约 (T)
 
 
 状态 5
 
-   36 T: T_BOOL .
+   50 T: T_BOOL .
 
-    $default  使用规则 36 以归约 (T)
+    $default  使用规则 50 以归约 (T)
 
 
 状态 6
+
+   51 T: T_VOID .
+
+    $default  使用规则 51 以归约 (T)
+
+
+状态 7
 
     4 statement: SEMICOLON .
 
     $default  使用规则 4 以归约 (statement)
 
 
-状态 7
-
-   19 declaration: IDENTIFIER . ASSIGN expr SEMICOLON
-
-    ASSIGN  偏移，并进入状态 22
-
-
 状态 8
 
-   11 if_statement: IF . bool_statement statement ELSE statement
-   12             | IF . bool_statement statement
+   20 declaration: IDENTIFIER . ASSIGN expr SEMICOLON
+   21            | IDENTIFIER . ADD_ASSIGN expr SEMICOLON
+   22            | IDENTIFIER . SUB_ASSIGN expr SEMICOLON
 
-    LPAREN  偏移，并进入状态 23
-
-    bool_statement  转到状态 24
+    ASSIGN      偏移，并进入状态 23
+    ADD_ASSIGN  偏移，并进入状态 24
+    SUB_ASSIGN  偏移，并进入状态 25
 
 
 状态 9
 
-   13 while_statement: WHILE . bool_statement statement
+   11 if_statement: IF . bool_statement statement ELSE statement
+   12             | IF . bool_statement statement
 
-    LPAREN  偏移，并进入状态 23
+    LPAREN  偏移，并进入状态 26
 
-    bool_statement  转到状态 25
+    bool_statement  转到状态 27
 
 
 状态 10
+
+   13 while_statement: WHILE . bool_statement statement
+
+    LPAREN  偏移，并进入状态 26
+
+    bool_statement  转到状态 28
+
+
+状态 11
 
     8 statement: LBRACE . statements RBRACE
 
@@ -243,30 +310,31 @@
     T_CHAR      偏移，并进入状态 3
     T_INT       偏移，并进入状态 4
     T_BOOL      偏移，并进入状态 5
-    SEMICOLON   偏移，并进入状态 6
-    IDENTIFIER  偏移，并进入状态 7
-    IF          偏移，并进入状态 8
-    WHILE       偏移，并进入状态 9
-    LBRACE      偏移，并进入状态 10
+    T_VOID      偏移，并进入状态 6
+    SEMICOLON   偏移，并进入状态 7
+    IDENTIFIER  偏移，并进入状态 8
+    IF          偏移，并进入状态 9
+    WHILE       偏移，并进入状态 10
+    LBRACE      偏移，并进入状态 11
 
-    statements       转到状态 26
-    statement        转到状态 13
-    if_statement     转到状态 14
-    while_statement  转到状态 15
-    printf           转到状态 16
-    scanf            转到状态 17
-    declaration      转到状态 18
-    T                转到状态 19
-
-
-状态 11
-
-    0 $accept: program . $end
-
-    $end  偏移，并进入状态 27
+    statements       转到状态 29
+    statement        转到状态 14
+    if_statement     转到状态 15
+    while_statement  转到状态 16
+    printf           转到状态 17
+    scanf            转到状态 18
+    declaration      转到状态 19
+    T                转到状态 20
 
 
 状态 12
+
+    0 $accept: program . $end
+
+    $end  偏移，并进入状态 30
+
+
+状态 13
 
     1 program: statements .
     3 statements: statements . statement
@@ -276,129 +344,165 @@
     T_CHAR      偏移，并进入状态 3
     T_INT       偏移，并进入状态 4
     T_BOOL      偏移，并进入状态 5
-    SEMICOLON   偏移，并进入状态 6
-    IDENTIFIER  偏移，并进入状态 7
-    IF          偏移，并进入状态 8
-    WHILE       偏移，并进入状态 9
-    LBRACE      偏移，并进入状态 10
+    T_VOID      偏移，并进入状态 6
+    SEMICOLON   偏移，并进入状态 7
+    IDENTIFIER  偏移，并进入状态 8
+    IF          偏移，并进入状态 9
+    WHILE       偏移，并进入状态 10
+    LBRACE      偏移，并进入状态 11
 
     $default  使用规则 1 以归约 (program)
 
-    statement        转到状态 28
-    if_statement     转到状态 14
-    while_statement  转到状态 15
-    printf           转到状态 16
-    scanf            转到状态 17
-    declaration      转到状态 18
-    T                转到状态 19
+    statement        转到状态 31
+    if_statement     转到状态 15
+    while_statement  转到状态 16
+    printf           转到状态 17
+    scanf            转到状态 18
+    declaration      转到状态 19
+    T                转到状态 20
 
 
-状态 13
+状态 14
 
     2 statements: statement .
 
     $default  使用规则 2 以归约 (statements)
 
 
-状态 14
+状态 15
 
     6 statement: if_statement .
 
     $default  使用规则 6 以归约 (statement)
 
 
-状态 15
+状态 16
 
     7 statement: while_statement .
 
     $default  使用规则 7 以归约 (statement)
 
 
-状态 16
+状态 17
 
     9 statement: printf . SEMICOLON
 
-    SEMICOLON  偏移，并进入状态 29
-
-
-状态 17
-
-   10 statement: scanf . SEMICOLON
-
-    SEMICOLON  偏移，并进入状态 30
+    SEMICOLON  偏移，并进入状态 32
 
 
 状态 18
+
+   10 statement: scanf . SEMICOLON
+
+    SEMICOLON  偏移，并进入状态 33
+
+
+状态 19
 
     5 statement: declaration .
 
     $default  使用规则 5 以归约 (statement)
 
 
-状态 19
+状态 20
 
    17 declaration: T . IDENTIFIER ASSIGN expr SEMICOLON
    18            | T . IDENTIFIER SEMICOLON
+   19            | T . IDENTIFIERS SEMICOLON
 
-    IDENTIFIER  偏移，并进入状态 31
+    IDENTIFIER  偏移，并进入状态 34
 
-
-状态 20
-
-   15 printf: PRINTF LPAREN . expr RPAREN
-
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    UN          偏移，并进入状态 36
-
-    expr  转到状态 37
+    IDENTIFIERS  转到状态 35
 
 
 状态 21
 
-   16 scanf: SCANF LPAREN . expr RPAREN
+   15 printf: PRINTF LPAREN . expr RPAREN
 
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    UN          偏移，并进入状态 36
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
 
-    expr  转到状态 38
+    expr  转到状态 42
 
 
 状态 22
 
-   19 declaration: IDENTIFIER ASSIGN . expr SEMICOLON
+   16 scanf: SCANF LPAREN . expr RPAREN
 
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    UN          偏移，并进入状态 36
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
 
-    expr  转到状态 39
+    expr  转到状态 43
 
 
 状态 23
 
-   14 bool_statement: LPAREN . bool_expr RPAREN
+   20 declaration: IDENTIFIER ASSIGN . expr SEMICOLON
 
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    TRUE        偏移，并进入状态 40
-    FALSE       偏移，并进入状态 41
-    UN          偏移，并进入状态 42
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
 
-    bool_expr  转到状态 43
-    expr       转到状态 44
+    expr  转到状态 44
 
 
 状态 24
+
+   21 declaration: IDENTIFIER ADD_ASSIGN . expr SEMICOLON
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 45
+
+
+状态 25
+
+   22 declaration: IDENTIFIER SUB_ASSIGN . expr SEMICOLON
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 46
+
+
+状态 26
+
+   14 bool_statement: LPAREN . bool_expr RPAREN
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    TRUE        偏移，并进入状态 47
+    FALSE       偏移，并进入状态 48
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 49
+
+    bool_expr  转到状态 50
+    expr       转到状态 51
+
+
+状态 27
 
    11 if_statement: IF bool_statement . statement ELSE statement
    12             | IF bool_statement . statement
@@ -408,22 +512,23 @@
     T_CHAR      偏移，并进入状态 3
     T_INT       偏移，并进入状态 4
     T_BOOL      偏移，并进入状态 5
-    SEMICOLON   偏移，并进入状态 6
-    IDENTIFIER  偏移，并进入状态 7
-    IF          偏移，并进入状态 8
-    WHILE       偏移，并进入状态 9
-    LBRACE      偏移，并进入状态 10
+    T_VOID      偏移，并进入状态 6
+    SEMICOLON   偏移，并进入状态 7
+    IDENTIFIER  偏移，并进入状态 8
+    IF          偏移，并进入状态 9
+    WHILE       偏移，并进入状态 10
+    LBRACE      偏移，并进入状态 11
 
-    statement        转到状态 45
-    if_statement     转到状态 14
-    while_statement  转到状态 15
-    printf           转到状态 16
-    scanf            转到状态 17
-    declaration      转到状态 18
-    T                转到状态 19
+    statement        转到状态 52
+    if_statement     转到状态 15
+    while_statement  转到状态 16
+    printf           转到状态 17
+    scanf            转到状态 18
+    declaration      转到状态 19
+    T                转到状态 20
 
 
-状态 25
+状态 28
 
    13 while_statement: WHILE bool_statement . statement
 
@@ -432,22 +537,23 @@
     T_CHAR      偏移，并进入状态 3
     T_INT       偏移，并进入状态 4
     T_BOOL      偏移，并进入状态 5
-    SEMICOLON   偏移，并进入状态 6
-    IDENTIFIER  偏移，并进入状态 7
-    IF          偏移，并进入状态 8
-    WHILE       偏移，并进入状态 9
-    LBRACE      偏移，并进入状态 10
+    T_VOID      偏移，并进入状态 6
+    SEMICOLON   偏移，并进入状态 7
+    IDENTIFIER  偏移，并进入状态 8
+    IF          偏移，并进入状态 9
+    WHILE       偏移，并进入状态 10
+    LBRACE      偏移，并进入状态 11
 
-    statement        转到状态 46
-    if_statement     转到状态 14
-    while_statement  转到状态 15
-    printf           转到状态 16
-    scanf            转到状态 17
-    declaration      转到状态 18
-    T                转到状态 19
+    statement        转到状态 53
+    if_statement     转到状态 15
+    while_statement  转到状态 16
+    printf           转到状态 17
+    scanf            转到状态 18
+    declaration      转到状态 19
+    T                转到状态 20
 
 
-状态 26
+状态 29
 
     3 statements: statements . statement
     8 statement: LBRACE statements . RBRACE
@@ -457,390 +563,680 @@
     T_CHAR      偏移，并进入状态 3
     T_INT       偏移，并进入状态 4
     T_BOOL      偏移，并进入状态 5
-    SEMICOLON   偏移，并进入状态 6
-    IDENTIFIER  偏移，并进入状态 7
-    IF          偏移，并进入状态 8
-    WHILE       偏移，并进入状态 9
-    LBRACE      偏移，并进入状态 10
-    RBRACE      偏移，并进入状态 47
+    T_VOID      偏移，并进入状态 6
+    SEMICOLON   偏移，并进入状态 7
+    IDENTIFIER  偏移，并进入状态 8
+    IF          偏移，并进入状态 9
+    WHILE       偏移，并进入状态 10
+    LBRACE      偏移，并进入状态 11
+    RBRACE      偏移，并进入状态 54
 
-    statement        转到状态 28
-    if_statement     转到状态 14
-    while_statement  转到状态 15
-    printf           转到状态 16
-    scanf            转到状态 17
-    declaration      转到状态 18
-    T                转到状态 19
+    statement        转到状态 31
+    if_statement     转到状态 15
+    while_statement  转到状态 16
+    printf           转到状态 17
+    scanf            转到状态 18
+    declaration      转到状态 19
+    T                转到状态 20
 
 
-状态 27
+状态 30
 
     0 $accept: program $end .
 
     $default  接受
 
 
-状态 28
+状态 31
 
     3 statements: statements statement .
 
     $default  使用规则 3 以归约 (statements)
 
 
-状态 29
+状态 32
 
     9 statement: printf SEMICOLON .
 
     $default  使用规则 9 以归约 (statement)
 
 
-状态 30
+状态 33
 
    10 statement: scanf SEMICOLON .
 
     $default  使用规则 10 以归约 (statement)
 
 
-状态 31
+状态 34
 
    17 declaration: T IDENTIFIER . ASSIGN expr SEMICOLON
    18            | T IDENTIFIER . SEMICOLON
+   23 IDENTIFIERS: IDENTIFIER . COMMA IDENTIFIERS
+   24            | IDENTIFIER .
 
-    ASSIGN     偏移，并进入状态 48
-    SEMICOLON  偏移，并进入状态 49
+    ASSIGN     偏移，并进入状态 55
+    SEMICOLON  偏移，并进入状态 56
+    COMMA      偏移，并进入状态 57
 
-
-状态 32
-
-   30 expr: IDENTIFIER .
-
-    $default  使用规则 30 以归约 (expr)
-
-
-状态 33
-
-   31 expr: INTEGER .
-
-    $default  使用规则 31 以归约 (expr)
-
-
-状态 34
-
-   32 expr: CHAR .
-
-    $default  使用规则 32 以归约 (expr)
+    SEMICOLON  [使用规则 24 以归约 (IDENTIFIERS)]
 
 
 状态 35
 
-   33 expr: STRING .
+   19 declaration: T IDENTIFIERS . SEMICOLON
 
-    $default  使用规则 33 以归约 (expr)
+    SEMICOLON  偏移，并进入状态 58
 
 
 状态 36
 
-   28 expr: UN . expr
+   44 expr: IDENTIFIER .
 
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    UN          偏移，并进入状态 36
-
-    expr  转到状态 50
+    $default  使用规则 44 以归约 (expr)
 
 
 状态 37
 
-   15 printf: PRINTF LPAREN expr . RPAREN
-   24 expr: expr . ADD expr
-   25     | expr . SUB expr
-   26     | expr . MUL expr
-   27     | expr . DIV expr
-   29     | expr . EQ expr
+   45 expr: INTEGER .
 
-    EQ      偏移，并进入状态 51
-    ADD     偏移，并进入状态 52
-    SUB     偏移，并进入状态 53
-    MUL     偏移，并进入状态 54
-    DIV     偏移，并进入状态 55
-    RPAREN  偏移，并进入状态 56
+    $default  使用规则 45 以归约 (expr)
 
 
 状态 38
 
-   16 scanf: SCANF LPAREN expr . RPAREN
-   24 expr: expr . ADD expr
-   25     | expr . SUB expr
-   26     | expr . MUL expr
-   27     | expr . DIV expr
-   29     | expr . EQ expr
+   46 expr: CHAR .
 
-    EQ      偏移，并进入状态 51
-    ADD     偏移，并进入状态 52
-    SUB     偏移，并进入状态 53
-    MUL     偏移，并进入状态 54
-    DIV     偏移，并进入状态 55
-    RPAREN  偏移，并进入状态 57
+    $default  使用规则 46 以归约 (expr)
 
 
 状态 39
 
-   19 declaration: IDENTIFIER ASSIGN expr . SEMICOLON
-   24 expr: expr . ADD expr
-   25     | expr . SUB expr
-   26     | expr . MUL expr
-   27     | expr . DIV expr
-   29     | expr . EQ expr
+   47 expr: STRING .
 
-    SEMICOLON  偏移，并进入状态 58
-    EQ         偏移，并进入状态 51
-    ADD        偏移，并进入状态 52
-    SUB        偏移，并进入状态 53
-    MUL        偏移，并进入状态 54
-    DIV        偏移，并进入状态 55
+    $default  使用规则 47 以归约 (expr)
 
 
 状态 40
 
-   20 bool_expr: TRUE .
+   42 expr: SUB . expr
 
-    $default  使用规则 20 以归约 (bool_expr)
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 59
 
 
 状态 41
 
-   21 bool_expr: FALSE .
+   41 expr: UN . expr
 
-    $default  使用规则 21 以归约 (bool_expr)
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 60
 
 
 状态 42
 
-   23 bool_expr: UN . bool_expr
-   28 expr: UN . expr
+   15 printf: PRINTF LPAREN expr . RPAREN
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
 
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    TRUE        偏移，并进入状态 40
-    FALSE       偏移，并进入状态 41
-    UN          偏移，并进入状态 42
-
-    bool_expr  转到状态 59
-    expr       转到状态 60
+    EQ      偏移，并进入状态 61
+    ADD     偏移，并进入状态 62
+    SUB     偏移，并进入状态 63
+    MUL     偏移，并进入状态 64
+    DIV     偏移，并进入状态 65
+    MODULA  偏移，并进入状态 66
+    RPAREN  偏移，并进入状态 67
 
 
 状态 43
 
-   14 bool_statement: LPAREN bool_expr . RPAREN
+   16 scanf: SCANF LPAREN expr . RPAREN
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
 
-    RPAREN  偏移，并进入状态 61
+    EQ      偏移，并进入状态 61
+    ADD     偏移，并进入状态 62
+    SUB     偏移，并进入状态 63
+    MUL     偏移，并进入状态 64
+    DIV     偏移，并进入状态 65
+    MODULA  偏移，并进入状态 66
+    RPAREN  偏移，并进入状态 68
 
 
 状态 44
 
-   22 bool_expr: expr . EQ expr
-   24 expr: expr . ADD expr
-   25     | expr . SUB expr
-   26     | expr . MUL expr
-   27     | expr . DIV expr
-   29     | expr . EQ expr
+   20 declaration: IDENTIFIER ASSIGN expr . SEMICOLON
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
 
-    EQ   偏移，并进入状态 62
-    ADD  偏移，并进入状态 52
-    SUB  偏移，并进入状态 53
-    MUL  偏移，并进入状态 54
-    DIV  偏移，并进入状态 55
+    SEMICOLON  偏移，并进入状态 69
+    EQ         偏移，并进入状态 61
+    ADD        偏移，并进入状态 62
+    SUB        偏移，并进入状态 63
+    MUL        偏移，并进入状态 64
+    DIV        偏移，并进入状态 65
+    MODULA     偏移，并进入状态 66
 
 
 状态 45
 
-   11 if_statement: IF bool_statement statement . ELSE statement
-   12             | IF bool_statement statement .
+   21 declaration: IDENTIFIER ADD_ASSIGN expr . SEMICOLON
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
 
-    ELSE  偏移，并进入状态 63
-
-    ELSE      [使用规则 12 以归约 (if_statement)]
-    $default  使用规则 12 以归约 (if_statement)
+    SEMICOLON  偏移，并进入状态 70
+    EQ         偏移，并进入状态 61
+    ADD        偏移，并进入状态 62
+    SUB        偏移，并进入状态 63
+    MUL        偏移，并进入状态 64
+    DIV        偏移，并进入状态 65
+    MODULA     偏移，并进入状态 66
 
 
 状态 46
+
+   22 declaration: IDENTIFIER SUB_ASSIGN expr . SEMICOLON
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+
+    SEMICOLON  偏移，并进入状态 71
+    EQ         偏移，并进入状态 61
+    ADD        偏移，并进入状态 62
+    SUB        偏移，并进入状态 63
+    MUL        偏移，并进入状态 64
+    DIV        偏移，并进入状态 65
+    MODULA     偏移，并进入状态 66
+
+
+状态 47
+
+   25 bool_expr: TRUE .
+
+    $default  使用规则 25 以归约 (bool_expr)
+
+
+状态 48
+
+   26 bool_expr: FALSE .
+
+    $default  使用规则 26 以归约 (bool_expr)
+
+
+状态 49
+
+   28 bool_expr: UN . bool_expr
+   41 expr: UN . expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    TRUE        偏移，并进入状态 47
+    FALSE       偏移，并进入状态 48
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 49
+
+    bool_expr  转到状态 72
+    expr       转到状态 73
+
+
+状态 50
+
+   14 bool_statement: LPAREN bool_expr . RPAREN
+   29 bool_expr: bool_expr . OR bool_expr
+   30          | bool_expr . ADD bool_expr
+
+    OR      偏移，并进入状态 74
+    ADD     偏移，并进入状态 75
+    RPAREN  偏移，并进入状态 76
+
+
+状态 51
+
+   27 bool_expr: expr . EQ expr
+   31          | expr . UNEQ expr
+   32          | expr . BIGGER expr
+   33          | expr . SMALLER expr
+   34          | expr . SMALLER_EQ expr
+   35          | expr . BIGGER_EQ expr
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+
+    EQ          偏移，并进入状态 77
+    UNEQ        偏移，并进入状态 78
+    BIGGER      偏移，并进入状态 79
+    SMALLER     偏移，并进入状态 80
+    BIGGER_EQ   偏移，并进入状态 81
+    SMALLER_EQ  偏移，并进入状态 82
+    ADD         偏移，并进入状态 62
+    SUB         偏移，并进入状态 63
+    MUL         偏移，并进入状态 64
+    DIV         偏移，并进入状态 65
+    MODULA      偏移，并进入状态 66
+
+
+状态 52
+
+   11 if_statement: IF bool_statement statement . ELSE statement
+   12             | IF bool_statement statement .
+
+    ELSE  偏移，并进入状态 83
+
+    $default  使用规则 12 以归约 (if_statement)
+
+
+状态 53
 
    13 while_statement: WHILE bool_statement statement .
 
     $default  使用规则 13 以归约 (while_statement)
 
 
-状态 47
+状态 54
 
     8 statement: LBRACE statements RBRACE .
 
     $default  使用规则 8 以归约 (statement)
 
 
-状态 48
+状态 55
 
    17 declaration: T IDENTIFIER ASSIGN . expr SEMICOLON
 
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    UN          偏移，并进入状态 36
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
 
-    expr  转到状态 64
+    expr  转到状态 84
 
 
-状态 49
+状态 56
 
    18 declaration: T IDENTIFIER SEMICOLON .
 
     $default  使用规则 18 以归约 (declaration)
 
 
-状态 50
-
-   24 expr: expr . ADD expr
-   25     | expr . SUB expr
-   26     | expr . MUL expr
-   27     | expr . DIV expr
-   28     | UN expr .
-   29     | expr . EQ expr
-
-    $default  使用规则 28 以归约 (expr)
-
-
-状态 51
-
-   29 expr: expr EQ . expr
-
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    UN          偏移，并进入状态 36
-
-    expr  转到状态 65
-
-
-状态 52
-
-   24 expr: expr ADD . expr
-
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    UN          偏移，并进入状态 36
-
-    expr  转到状态 66
-
-
-状态 53
-
-   25 expr: expr SUB . expr
-
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    UN          偏移，并进入状态 36
-
-    expr  转到状态 67
-
-
-状态 54
-
-   26 expr: expr MUL . expr
-
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    UN          偏移，并进入状态 36
-
-    expr  转到状态 68
-
-
-状态 55
-
-   27 expr: expr DIV . expr
-
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    UN          偏移，并进入状态 36
-
-    expr  转到状态 69
-
-
-状态 56
-
-   15 printf: PRINTF LPAREN expr RPAREN .
-
-    $default  使用规则 15 以归约 (printf)
-
-
 状态 57
 
-   16 scanf: SCANF LPAREN expr RPAREN .
+   23 IDENTIFIERS: IDENTIFIER COMMA . IDENTIFIERS
 
-    $default  使用规则 16 以归约 (scanf)
+    IDENTIFIER  偏移，并进入状态 85
+
+    IDENTIFIERS  转到状态 86
 
 
 状态 58
 
-   19 declaration: IDENTIFIER ASSIGN expr SEMICOLON .
+   19 declaration: T IDENTIFIERS SEMICOLON .
 
     $default  使用规则 19 以归约 (declaration)
 
 
 状态 59
 
-   23 bool_expr: UN bool_expr .
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   42     | SUB expr .
+   43     | expr . EQ expr
 
-    $default  使用规则 23 以归约 (bool_expr)
+    EQ      偏移，并进入状态 61
+    MUL     偏移，并进入状态 64
+    DIV     偏移，并进入状态 65
+    MODULA  偏移，并进入状态 66
+
+    EQ        [使用规则 42 以归约 (expr)]
+    $default  使用规则 42 以归约 (expr)
 
 
 状态 60
 
-   22 bool_expr: expr . EQ expr
-   24 expr: expr . ADD expr
-   25     | expr . SUB expr
-   26     | expr . MUL expr
-   27     | expr . DIV expr
-   28     | UN expr .
-   29     | expr . EQ expr
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   41     | UN expr .
+   43     | expr . EQ expr
 
-    $default  使用规则 28 以归约 (expr)
+    EQ  偏移，并进入状态 61
+
+    EQ        [使用规则 41 以归约 (expr)]
+    $default  使用规则 41 以归约 (expr)
 
 
 状态 61
+
+   43 expr: expr EQ . expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 87
+
+
+状态 62
+
+   36 expr: expr ADD . expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 88
+
+
+状态 63
+
+   37 expr: expr SUB . expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 89
+
+
+状态 64
+
+   38 expr: expr MUL . expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 90
+
+
+状态 65
+
+   39 expr: expr DIV . expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 91
+
+
+状态 66
+
+   40 expr: expr MODULA . expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 92
+
+
+状态 67
+
+   15 printf: PRINTF LPAREN expr RPAREN .
+
+    $default  使用规则 15 以归约 (printf)
+
+
+状态 68
+
+   16 scanf: SCANF LPAREN expr RPAREN .
+
+    $default  使用规则 16 以归约 (scanf)
+
+
+状态 69
+
+   20 declaration: IDENTIFIER ASSIGN expr SEMICOLON .
+
+    $default  使用规则 20 以归约 (declaration)
+
+
+状态 70
+
+   21 declaration: IDENTIFIER ADD_ASSIGN expr SEMICOLON .
+
+    $default  使用规则 21 以归约 (declaration)
+
+
+状态 71
+
+   22 declaration: IDENTIFIER SUB_ASSIGN expr SEMICOLON .
+
+    $default  使用规则 22 以归约 (declaration)
+
+
+状态 72
+
+   28 bool_expr: UN bool_expr .
+   29          | bool_expr . OR bool_expr
+   30          | bool_expr . ADD bool_expr
+
+    OR  偏移，并进入状态 74
+
+    OR        [使用规则 28 以归约 (bool_expr)]
+    $default  使用规则 28 以归约 (bool_expr)
+
+
+状态 73
+
+   27 bool_expr: expr . EQ expr
+   31          | expr . UNEQ expr
+   32          | expr . BIGGER expr
+   33          | expr . SMALLER expr
+   34          | expr . SMALLER_EQ expr
+   35          | expr . BIGGER_EQ expr
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   41     | UN expr .
+   43     | expr . EQ expr
+
+    EQ          偏移，并进入状态 77
+    UNEQ        偏移，并进入状态 78
+    BIGGER      偏移，并进入状态 79
+    SMALLER     偏移，并进入状态 80
+    BIGGER_EQ   偏移，并进入状态 81
+    SMALLER_EQ  偏移，并进入状态 82
+
+    EQ          [使用规则 41 以归约 (expr)]
+    UNEQ        [使用规则 41 以归约 (expr)]
+    BIGGER      [使用规则 41 以归约 (expr)]
+    SMALLER     [使用规则 41 以归约 (expr)]
+    BIGGER_EQ   [使用规则 41 以归约 (expr)]
+    SMALLER_EQ  [使用规则 41 以归约 (expr)]
+    $default    使用规则 41 以归约 (expr)
+
+
+状态 74
+
+   29 bool_expr: bool_expr OR . bool_expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    TRUE        偏移，并进入状态 47
+    FALSE       偏移，并进入状态 48
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 49
+
+    bool_expr  转到状态 93
+    expr       转到状态 51
+
+
+状态 75
+
+   30 bool_expr: bool_expr ADD . bool_expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    TRUE        偏移，并进入状态 47
+    FALSE       偏移，并进入状态 48
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 49
+
+    bool_expr  转到状态 94
+    expr       转到状态 51
+
+
+状态 76
 
    14 bool_statement: LPAREN bool_expr RPAREN .
 
     $default  使用规则 14 以归约 (bool_statement)
 
 
-状态 62
+状态 77
 
-   22 bool_expr: expr EQ . expr
-   29 expr: expr EQ . expr
+   27 bool_expr: expr EQ . expr
+   43 expr: expr EQ . expr
 
-    IDENTIFIER  偏移，并进入状态 32
-    INTEGER     偏移，并进入状态 33
-    CHAR        偏移，并进入状态 34
-    STRING      偏移，并进入状态 35
-    UN          偏移，并进入状态 36
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
 
-    expr  转到状态 70
+    expr  转到状态 95
 
 
-状态 63
+状态 78
+
+   31 bool_expr: expr UNEQ . expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 96
+
+
+状态 79
+
+   32 bool_expr: expr BIGGER . expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 97
+
+
+状态 80
+
+   33 bool_expr: expr SMALLER . expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 98
+
+
+状态 81
+
+   35 bool_expr: expr BIGGER_EQ . expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 99
+
+
+状态 82
+
+   34 bool_expr: expr SMALLER_EQ . expr
+
+    IDENTIFIER  偏移，并进入状态 36
+    INTEGER     偏移，并进入状态 37
+    CHAR        偏移，并进入状态 38
+    STRING      偏移，并进入状态 39
+    SUB         偏移，并进入状态 40
+    UN          偏移，并进入状态 41
+
+    expr  转到状态 100
+
+
+状态 83
 
    11 if_statement: IF bool_statement statement ELSE . statement
 
@@ -849,136 +1245,339 @@
     T_CHAR      偏移，并进入状态 3
     T_INT       偏移，并进入状态 4
     T_BOOL      偏移，并进入状态 5
-    SEMICOLON   偏移，并进入状态 6
-    IDENTIFIER  偏移，并进入状态 7
-    IF          偏移，并进入状态 8
-    WHILE       偏移，并进入状态 9
-    LBRACE      偏移，并进入状态 10
+    T_VOID      偏移，并进入状态 6
+    SEMICOLON   偏移，并进入状态 7
+    IDENTIFIER  偏移，并进入状态 8
+    IF          偏移，并进入状态 9
+    WHILE       偏移，并进入状态 10
+    LBRACE      偏移，并进入状态 11
 
-    statement        转到状态 71
-    if_statement     转到状态 14
-    while_statement  转到状态 15
-    printf           转到状态 16
-    scanf            转到状态 17
-    declaration      转到状态 18
-    T                转到状态 19
+    statement        转到状态 101
+    if_statement     转到状态 15
+    while_statement  转到状态 16
+    printf           转到状态 17
+    scanf            转到状态 18
+    declaration      转到状态 19
+    T                转到状态 20
 
 
-状态 64
+状态 84
 
    17 declaration: T IDENTIFIER ASSIGN expr . SEMICOLON
-   24 expr: expr . ADD expr
-   25     | expr . SUB expr
-   26     | expr . MUL expr
-   27     | expr . DIV expr
-   29     | expr . EQ expr
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
 
-    SEMICOLON  偏移，并进入状态 72
-    EQ         偏移，并进入状态 51
-    ADD        偏移，并进入状态 52
-    SUB        偏移，并进入状态 53
-    MUL        偏移，并进入状态 54
-    DIV        偏移，并进入状态 55
-
-
-状态 65
-
-   24 expr: expr . ADD expr
-   25     | expr . SUB expr
-   26     | expr . MUL expr
-   27     | expr . DIV expr
-   29     | expr . EQ expr
-   29     | expr EQ expr .
-
-    ADD  偏移，并进入状态 52
-    SUB  偏移，并进入状态 53
-    MUL  偏移，并进入状态 54
-    DIV  偏移，并进入状态 55
-
-    $default  使用规则 29 以归约 (expr)
+    SEMICOLON  偏移，并进入状态 102
+    EQ         偏移，并进入状态 61
+    ADD        偏移，并进入状态 62
+    SUB        偏移，并进入状态 63
+    MUL        偏移，并进入状态 64
+    DIV        偏移，并进入状态 65
+    MODULA     偏移，并进入状态 66
 
 
-状态 66
+状态 85
 
-   24 expr: expr . ADD expr
-   24     | expr ADD expr .
-   25     | expr . SUB expr
-   26     | expr . MUL expr
-   27     | expr . DIV expr
-   29     | expr . EQ expr
+   23 IDENTIFIERS: IDENTIFIER . COMMA IDENTIFIERS
+   24            | IDENTIFIER .
 
-    MUL  偏移，并进入状态 54
-    DIV  偏移，并进入状态 55
+    COMMA  偏移，并进入状态 57
 
-    $default  使用规则 24 以归约 (expr)
+    $default  使用规则 24 以归约 (IDENTIFIERS)
 
 
-状态 67
+状态 86
 
-   24 expr: expr . ADD expr
-   25     | expr . SUB expr
-   25     | expr SUB expr .
-   26     | expr . MUL expr
-   27     | expr . DIV expr
-   29     | expr . EQ expr
+   23 IDENTIFIERS: IDENTIFIER COMMA IDENTIFIERS .
 
-    MUL  偏移，并进入状态 54
-    DIV  偏移，并进入状态 55
-
-    $default  使用规则 25 以归约 (expr)
+    $default  使用规则 23 以归约 (IDENTIFIERS)
 
 
-状态 68
+状态 87
 
-   24 expr: expr . ADD expr
-   25     | expr . SUB expr
-   26     | expr . MUL expr
-   26     | expr MUL expr .
-   27     | expr . DIV expr
-   29     | expr . EQ expr
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+   43     | expr EQ expr .
 
-    $default  使用规则 26 以归约 (expr)
+    EQ      偏移，并进入状态 61
+    ADD     偏移，并进入状态 62
+    SUB     偏移，并进入状态 63
+    MUL     偏移，并进入状态 64
+    DIV     偏移，并进入状态 65
+    MODULA  偏移，并进入状态 66
 
-
-状态 69
-
-   24 expr: expr . ADD expr
-   25     | expr . SUB expr
-   26     | expr . MUL expr
-   27     | expr . DIV expr
-   27     | expr DIV expr .
-   29     | expr . EQ expr
-
-    $default  使用规则 27 以归约 (expr)
-
-
-状态 70
-
-   22 bool_expr: expr EQ expr .
-   24 expr: expr . ADD expr
-   25     | expr . SUB expr
-   26     | expr . MUL expr
-   27     | expr . DIV expr
-   29     | expr . EQ expr
-   29     | expr EQ expr .
-
-    ADD  偏移，并进入状态 52
-    SUB  偏移，并进入状态 53
-    MUL  偏移，并进入状态 54
-    DIV  偏移，并进入状态 55
-
-    EQ        使用规则 29 以归约 (expr)
-    $default  使用规则 22 以归约 (bool_expr)
+    EQ        [使用规则 43 以归约 (expr)]
+    ADD       [使用规则 43 以归约 (expr)]
+    SUB       [使用规则 43 以归约 (expr)]
+    MUL       [使用规则 43 以归约 (expr)]
+    DIV       [使用规则 43 以归约 (expr)]
+    MODULA    [使用规则 43 以归约 (expr)]
+    $default  使用规则 43 以归约 (expr)
 
 
-状态 71
+状态 88
+
+   36 expr: expr . ADD expr
+   36     | expr ADD expr .
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+
+    EQ      偏移，并进入状态 61
+    MUL     偏移，并进入状态 64
+    DIV     偏移，并进入状态 65
+    MODULA  偏移，并进入状态 66
+
+    EQ        [使用规则 36 以归约 (expr)]
+    $default  使用规则 36 以归约 (expr)
+
+
+状态 89
+
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   37     | expr SUB expr .
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+
+    EQ      偏移，并进入状态 61
+    MUL     偏移，并进入状态 64
+    DIV     偏移，并进入状态 65
+    MODULA  偏移，并进入状态 66
+
+    EQ        [使用规则 37 以归约 (expr)]
+    $default  使用规则 37 以归约 (expr)
+
+
+状态 90
+
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   38     | expr MUL expr .
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+
+    EQ  偏移，并进入状态 61
+
+    EQ        [使用规则 38 以归约 (expr)]
+    $default  使用规则 38 以归约 (expr)
+
+
+状态 91
+
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   39     | expr DIV expr .
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+
+    EQ  偏移，并进入状态 61
+
+    EQ        [使用规则 39 以归约 (expr)]
+    $default  使用规则 39 以归约 (expr)
+
+
+状态 92
+
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   40     | expr MODULA expr .
+   43     | expr . EQ expr
+
+    EQ  偏移，并进入状态 61
+
+    EQ        [使用规则 40 以归约 (expr)]
+    $default  使用规则 40 以归约 (expr)
+
+
+状态 93
+
+   29 bool_expr: bool_expr . OR bool_expr
+   29          | bool_expr OR bool_expr .
+   30          | bool_expr . ADD bool_expr
+
+    OR   偏移，并进入状态 74
+    ADD  偏移，并进入状态 75
+
+    OR        [使用规则 29 以归约 (bool_expr)]
+    ADD       [使用规则 29 以归约 (bool_expr)]
+    $default  使用规则 29 以归约 (bool_expr)
+
+
+状态 94
+
+   29 bool_expr: bool_expr . OR bool_expr
+   30          | bool_expr . ADD bool_expr
+   30          | bool_expr ADD bool_expr .
+
+    OR  偏移，并进入状态 74
+
+    OR        [使用规则 30 以归约 (bool_expr)]
+    $default  使用规则 30 以归约 (bool_expr)
+
+
+状态 95
+
+   27 bool_expr: expr EQ expr .
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+   43     | expr EQ expr .
+
+    EQ      偏移，并进入状态 61
+    ADD     偏移，并进入状态 62
+    SUB     偏移，并进入状态 63
+    MUL     偏移，并进入状态 64
+    DIV     偏移，并进入状态 65
+    MODULA  偏移，并进入状态 66
+
+    OR        使用规则 27 以归约 (bool_expr)
+    EQ        [使用规则 43 以归约 (expr)]
+    ADD       [使用规则 27 以归约 (bool_expr)]
+    ADD       [使用规则 43 以归约 (expr)]
+    SUB       [使用规则 43 以归约 (expr)]
+    MUL       [使用规则 43 以归约 (expr)]
+    DIV       [使用规则 43 以归约 (expr)]
+    MODULA    [使用规则 43 以归约 (expr)]
+    RPAREN    使用规则 27 以归约 (bool_expr)
+    $default  使用规则 43 以归约 (expr)
+
+
+状态 96
+
+   31 bool_expr: expr UNEQ expr .
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+
+    EQ      偏移，并进入状态 61
+    ADD     偏移，并进入状态 62
+    SUB     偏移，并进入状态 63
+    MUL     偏移，并进入状态 64
+    DIV     偏移，并进入状态 65
+    MODULA  偏移，并进入状态 66
+
+    ADD       [使用规则 31 以归约 (bool_expr)]
+    $default  使用规则 31 以归约 (bool_expr)
+
+
+状态 97
+
+   32 bool_expr: expr BIGGER expr .
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+
+    EQ      偏移，并进入状态 61
+    ADD     偏移，并进入状态 62
+    SUB     偏移，并进入状态 63
+    MUL     偏移，并进入状态 64
+    DIV     偏移，并进入状态 65
+    MODULA  偏移，并进入状态 66
+
+    ADD       [使用规则 32 以归约 (bool_expr)]
+    $default  使用规则 32 以归约 (bool_expr)
+
+
+状态 98
+
+   33 bool_expr: expr SMALLER expr .
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+
+    EQ      偏移，并进入状态 61
+    ADD     偏移，并进入状态 62
+    SUB     偏移，并进入状态 63
+    MUL     偏移，并进入状态 64
+    DIV     偏移，并进入状态 65
+    MODULA  偏移，并进入状态 66
+
+    ADD       [使用规则 33 以归约 (bool_expr)]
+    $default  使用规则 33 以归约 (bool_expr)
+
+
+状态 99
+
+   35 bool_expr: expr BIGGER_EQ expr .
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+
+    EQ      偏移，并进入状态 61
+    ADD     偏移，并进入状态 62
+    SUB     偏移，并进入状态 63
+    MUL     偏移，并进入状态 64
+    DIV     偏移，并进入状态 65
+    MODULA  偏移，并进入状态 66
+
+    ADD       [使用规则 35 以归约 (bool_expr)]
+    $default  使用规则 35 以归约 (bool_expr)
+
+
+状态 100
+
+   34 bool_expr: expr SMALLER_EQ expr .
+   36 expr: expr . ADD expr
+   37     | expr . SUB expr
+   38     | expr . MUL expr
+   39     | expr . DIV expr
+   40     | expr . MODULA expr
+   43     | expr . EQ expr
+
+    EQ      偏移，并进入状态 61
+    ADD     偏移，并进入状态 62
+    SUB     偏移，并进入状态 63
+    MUL     偏移，并进入状态 64
+    DIV     偏移，并进入状态 65
+    MODULA  偏移，并进入状态 66
+
+    ADD       [使用规则 34 以归约 (bool_expr)]
+    $default  使用规则 34 以归约 (bool_expr)
+
+
+状态 101
 
    11 if_statement: IF bool_statement statement ELSE statement .
 
     $default  使用规则 11 以归约 (if_statement)
 
 
-状态 72
+状态 102
 
    17 declaration: T IDENTIFIER ASSIGN expr SEMICOLON .
 

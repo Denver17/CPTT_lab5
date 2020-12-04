@@ -7,30 +7,40 @@
     int yyerror( char const * );
 %}
 
+
+%start program
+
+%token MAIN
+
 %token PRINTF SCANF
 
-%token T_CHAR T_INT T_STRING T_BOOL 
+%token GUIDE
 
-%token ASSIGN 
+%token T_CHAR T_INT T_STRING T_BOOL T_VOID
 
-%token SEMICOLON
+%token ASSIGN  ADD_ASSIGN SUB_ASSIGN
+
+%token SEMICOLON COMMA
 
 %token IDENTIFIER INTEGER CHAR BOOL STRING
+
+%token AND OR 
 
 %token TRUE FALSE
 
 %token IF ELSE WHILE
 
-%left EQ
+%token EQ UNEQ BIGGER SMALLER BIGGER_EQ SMALLER_EQ
 
 %left ADD SUB 
 
-%left MUL DIV
+%left MUL DIV MODULA
 
 %right UN
 
 
-
+%nonassoc LOWER_THEN_ELSE
+%nonassoc ELSE
 
 
 %token LPAREN RPAREN LSB RSB LBRACE RBRACE
@@ -39,7 +49,8 @@
 
 
 program
-: statements {root = new TreeNode(0, NODE_PROG); root->addChild($1);};
+: statements {root = new TreeNode(1, NODE_PROG); root->addChild($1);}
+;
 
 statements
 :  statement {$$=$1;}
@@ -67,7 +78,7 @@ if_statement
     node->addChild($5);
     $$=node;
 }
-|IF bool_statement statement {
+|IF bool_statement statement %prec LOWER_THEN_ELSE{
     TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
     node->stype=STMT_IF;
     node->addChild($2);
@@ -124,30 +135,128 @@ declaration
     node->addChild($2);
     $$ = node;   
 }
-| IDENTIFIER ASSIGN expr SEMICOLON{
+| T IDENTIFIERS SEMICOLON{
 	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
     node->stype=STMT_DECL;
+    node->addChild($1);
+    node->addChild($2);
+    $$=node; 
+}
+| IDENTIFIER ASSIGN expr SEMICOLON{
+	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+    node->stype=STMT_ASSIGN;
     node->addChild($1);
     node->addChild($3);
     $$=node;  
 }
+| IDENTIFIER ADD_ASSIGN expr SEMICOLON{
+	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+    node->stype=STMT_ASSIGN;
+    node->addChild($1);
+    node->addChild($3);
+    $$=node;
+}
+| IDENTIFIER SUB_ASSIGN expr SEMICOLON{
+	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+    node->stype=STMT_ASSIGN;
+    node->addChild($1);
+    node->addChild($3);
+    $$=node;  
+}
+
+
 ;
 
+
+
+IDENTIFIERS
+: IDENTIFIER COMMA IDENTIFIERS{
+	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+    node->stype=STMT_DECL;
+    node->addChild($1);
+    node->addChild($3);
+    $$=node; 
+}
+| IDENTIFIER{
+	$$=$1;
+}
+;
+
+
+
 bool_expr
-  : TRUE {$$=$1;}
-  | FALSE {$$=$1;}
-  | expr EQ expr {
-     TreeNode *node=new TreeNode($1->lineno,NODE_OP);
-     node->optype=OP_EQ;
-     node->addChild($1);
-     node->addChild($3);
-     $$=node;
-    }
-  | UN bool_expr {
+: TRUE {$$=$1;}
+| FALSE {$$=$1;}
+/*
+| bool_expr EQ bool_expr{
+	TreeNode *node=new TreeNode($1->lineno,NODE_OP);
+    node->optype=OP_EQ;
+    node->addChild($1);
+    node->addChild($3);
+    $$=node;  
+}
+*/
+| expr EQ expr {
     TreeNode *node=new TreeNode($1->lineno,NODE_OP);
+    node->optype=OP_EQ;
+    node->addChild($1);
+    node->addChild($3);
+    $$=node;
+}
+| UN bool_expr {
+ 	TreeNode *node=new TreeNode($1->lineno,NODE_OP);
     node->optype=OP_UN;
     node->addChild($2);
     $$=node;
+}
+| bool_expr OR bool_expr {
+	TreeNode *node=new TreeNode($1->lineno,NODE_OP);
+	node->optype=OP_OR;    
+	node->addChild($1);
+    node->addChild($3);
+    $$=node;
+}
+| bool_expr ADD bool_expr {    
+	TreeNode *node=new TreeNode($1->lineno,NODE_OP);
+    node->optype=OP_ADD;
+    node->addChild($1);
+    node->addChild($3);
+    $$=node;
+}
+| expr UNEQ expr {
+    TreeNode *node=new TreeNode($1->lineno,NODE_OP);
+    node->optype=OP_UNEQ;
+    node->addChild($1);
+    node->addChild($3);
+    $$=node;
+}
+| expr BIGGER expr {
+    TreeNode *node=new TreeNode($1->lineno,NODE_OP);
+    node->optype=OP_BIGGER;
+    node->addChild($1);
+    node->addChild($3);
+    $$=node;
+}
+| expr SMALLER expr {
+    TreeNode *node=new TreeNode($1->lineno,NODE_OP);
+    node->optype=OP_SMALLER;
+    node->addChild($1);
+    node->addChild($3);
+    $$=node;
+}
+| expr SMALLER_EQ expr {
+    TreeNode *node=new TreeNode($1->lineno,NODE_OP);
+    node->optype=OP_SMALLER_EQ;
+    node->addChild($1);
+    node->addChild($3);
+    $$=node;
+}
+| expr BIGGER_EQ expr {
+    TreeNode *node=new TreeNode($1->lineno,NODE_OP);
+    node->optype=OP_BIGGER_EQ;
+    node->addChild($1);
+	node->addChild($3);
+	$$=node;
 }
 ;
 
@@ -184,11 +293,25 @@ expr
     $$ = node;
 
 }
+| expr MODULA expr {
+    TreeNode *node = new TreeNode($1->lineno,NODE_OP);
+    node->optype=OP_MODULA;
+    node->addChild($1);
+    node->addChild($3);
+    $$=node;
+ }
 | UN expr {
 	TreeNode* node = new TreeNode($1->lineno, NODE_EXPR);
 	node->optype=OP_UN;
 	node->addSibling($2);
 	$$ = node;
+}
+|SUB expr{
+	TreeNode* node = new TreeNode($1->lineno, NODE_EXPR);     
+	node->optype=OP_SUB;
+    node->addSibling($2);
+    $$ = node;
+
 }
 | expr EQ expr {
 	TreeNode* node = new TreeNode($1->lineno, NODE_EXPR);
@@ -214,6 +337,7 @@ expr
 T: T_INT {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_INT;} 
 | T_CHAR {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_CHAR;}
 | T_BOOL {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_BOOL;}
+| T_VOID {$$ = new TreeNode(lineno, NODE_TYPE); $$->type = TYPE_VOID;}
 ;
 
 
