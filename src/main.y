@@ -14,6 +14,8 @@
 
 %token PRINTF SCANF
 
+%token SCANF_TYPE_1_d
+
 %token GUIDE
 
 %token T_CHAR T_INT T_STRING T_BOOL T_VOID
@@ -37,6 +39,8 @@
 %right UN
 
 %token LPAREN RPAREN LSB RSB LBRACE RBRACE  SEMICOLON COMMA
+
+%token DOUBLE_MARK
 
 %nonassoc LOWER_THEN_ELSE
 %nonassoc ELSE
@@ -62,9 +66,19 @@ statement
 | while_statement {$$=$1;}
 | for_statement {$$=$1;}
 | LBRACE statements RBRACE {$$=$2;}
-| printf SEMICOLON {$$=$1;}
-| scanf SEMICOLON {$$=$1;}
+| printf {$$=$1;}
+| scanf  {$$=$1;}
 ;
+
+scanf
+: SCANF LPAREN DOUBLE_MARK SCANF_TYPE_1_d DOUBLE_MARK COMMA GUIDE IDENTIFIER RPAREN SEMICOLON{
+	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+    node->stype=STMT_SCANF;
+	node->addChild($4);
+    node->addChild($8);
+	$$=node;
+}
+
 
 
 

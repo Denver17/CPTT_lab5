@@ -1,2 +1,74 @@
 main
-"syntax error at line 7
+  0	program	child:	1	6	9	12	16	19
+  1	statement	child:	2	3
+  6	statement	child:	7	8
+  9	statement	child:	10	11
+  12	statement	child:	13	17	18
+  16	statement	child:	17	18
+  19	statement	child:	20	38	41	44	47	50
+  20	operator	child:	21	24
+  38	statement	child:	39	40
+  41	statement	child:	42	43
+  44	statement	child:	45	46
+  47	statement	child:	48	49
+  50	statement	child:	51	56	59	62
+  51	operator	child:	52	53	54	55
+  56	statement	child:	57	58
+  59	statement	child:	60	61
+  62	statement	child:	63	67	70	72
+  63	statement	child:	64	65	66
+  67	operator	child:	68	69
+  70	statement	child:	71
+  72	statement	child:
+  71	variable	child:
+  68	variable	child:
+  69	variable	child:
+  64	type	child:
+  65	variable	child:
+  66	const	child:
+  60	variable	child:
+  61	const	child:
+  57	type	child:
+  58	variable	child:
+  52	expression	child:
+  53	variable	child:
+  54	expression	child:
+  55	const	child:
+  48	variable	child:
+  49	variable	child:
+  45	variable	child:
+  46	const	child:
+  42	type	child:
+  43	variable	child:
+  39	variable	child:
+  40	const	child:
+  21	operator	child:	22	23
+  24	operator	child:	25	28
+  25	operator	child:	26	27
+  28	operator	child:	29	34
+  29	operator	child:	30	33
+  34	operator	child:	35
+  35	operator	child:	36	37
+  36	variable	child:
+  37	const	child:
+  30	expression	child:	31	32
+  33	const	child:
+  31	variable	child:
+  32	const	child:
+  26	variable	child:
+  27	const	child:
+  22	variable	child:
+  23	const	child:
+  17	variable	child:
+  18	variable	child:
+  13	type	child:
+  17	variable	child:
+  18	variable	child:
+  10	variable	child:
+  11	const	child:
+  7	variable	child:
+  8	const	child:
+  2	type	child:
+  3	statement	child:	4	5
+  4	variable	child:
+  5	variable	child:

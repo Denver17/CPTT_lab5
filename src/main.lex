@@ -79,9 +79,13 @@ linecommentend \n
 
 ";" return  SEMICOLON;
 "," return COMMA;
+\"  return DOUBLE_MARK;
 
 "printf" return PRINTF;
 "scanf" return SCANF;
+
+"%d" return SCANF_TYPE_1_d;
+
 
 
 "void main()" {
