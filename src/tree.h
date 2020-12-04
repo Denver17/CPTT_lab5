@@ -38,12 +38,15 @@ enum OperatorType
 
 enum StmtType {
     STMT_SKIP,
-    STMT_DECL,
-	STMT_IF,
-	STMT_WHILE,
-    STMT_ASSIGN,
-    STMT_PRINTF,
-    STMT_SCANF,
+    STMT_DECL,	
+	STMT_IF,	//if
+	STMT_WHILE,	//while
+	STMT_FOR,	//for
+	STMT_FOR_BOOL,//for中的判断语句
+    STMT_ASSIGN,//=
+    STMT_PRINTF,//printf
+    STMT_SCANF,//scanf
+	STMT_SELF,//++ --
 }
 ;
 

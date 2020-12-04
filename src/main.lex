@@ -57,10 +57,14 @@ linecommentend \n
 "if" return IF;
 "else" return ELSE;
 "while" return WHILE;
+"for" return FOR;
 
 "=" return ASSIGN;
 "+=" return ADD_ASSIGN;
 "-=" return SUB_ASSIGN;
+
+"++" return SELF_ADD;
+"--" return SELF_SUB;
 
 "==" return EQ;
 "!=" return UNEQ;
