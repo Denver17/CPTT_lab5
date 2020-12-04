@@ -18,22 +18,6 @@ CHAR \'.?\'
 STRING \".+\"
 
 
-
-RETURN return
-WHILE while
-IF if
-ELSE else
-FOR for
-
-LPAREN "("
-RPAREN ")"
-LSB "["
-RSB "]"
-LBRACE "{"
-RBRACE "}"
-
-
-
 IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 
 commentbegin "/*"

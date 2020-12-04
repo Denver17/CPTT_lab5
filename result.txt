@@ -1,2 +1,2 @@
 main
-syntax error at line 7
+"syntax error at line 7

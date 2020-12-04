@@ -20,8 +20,6 @@
 
 %token ASSIGN  ADD_ASSIGN SUB_ASSIGN SELF_ADD SELF_SUB
 
-%token SEMICOLON COMMA
-
 %token IDENTIFIER INTEGER CHAR BOOL STRING
 
 %token AND OR 
@@ -38,12 +36,12 @@
 
 %right UN
 
+%token LPAREN RPAREN LSB RSB LBRACE RBRACE  SEMICOLON COMMA
 
 %nonassoc LOWER_THEN_ELSE
 %nonassoc ELSE
 
 
-%token LPAREN RPAREN LSB RSB LBRACE RBRACE
 
 %%
 
@@ -98,34 +96,51 @@ while_statement
 }
 ;
 
-
+/*
 for_statement
-: FOR for_bool_statement statement{
+: FOR  declaration  statement{
+	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+	node->stype=STMT_FOR;
+	node->addChild($2);
+	node->addChild($3);
+	$$=node;
+}
+*/
+
+//这里declaration最后跟着分号，因此没有SEMICOLON
+for_statement
+: FOR LPAREN declaration  bool_expr SEMICOLON self_assign RPAREN statement {
 	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
     node->stype=STMT_FOR;
-   	node->addChild($2);
    	node->addChild($3);
+   	node->addChild($4);
+	node->addChild($6);
+	node->addChild($8);
     $$=node;
 }
 
+
+
+/*
 for_bool_statement
-: LPAREN declaration SEMICOLON bool_expr SEMICOLON self_assign RPAREN{
+:  bool_expr {
 	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
     node->stype=STMT_FOR_BOOL;
     node->addChild($2);
-    node->addChild($4);
-	node->addChild($6);
+    //node->addChild($4);
+	node->addChild($5);
     $$=node;
 }
+*/
 
 self_assign
-:IDENTIFIER SELF_ADD{
+: IDENTIFIER SELF_ADD{
 	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
     node->stype=STMT_SELF;
     node->addChild($1);
     $$=node;
 }
-|IDENTIFIER SELF_SUB {
+| IDENTIFIER SELF_SUB {
 	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
 	node->stype=STMT_SELF;
     node->addChild($1);
@@ -236,6 +251,7 @@ IDENTIFIERS
 bool_expr
 : TRUE {$$=$1;}
 | FALSE {$$=$1;}
+
 /*
 | bool_expr EQ bool_expr{
 	TreeNode *node=new TreeNode($1->lineno,NODE_OP);
@@ -245,6 +261,7 @@ bool_expr
     $$=node;  
 }
 */
+
 | expr EQ expr {
     TreeNode *node=new TreeNode($1->lineno,NODE_OP);
     node->optype=OP_EQ;
