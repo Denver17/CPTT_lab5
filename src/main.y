@@ -14,7 +14,9 @@
 
 %token PRINTF SCANF
 
-%token SCANF_TYPE_1_d
+%token PRINTF_TEXT
+
+%token SPF_TYPE_1_d
 
 %token GUIDE
 
@@ -39,6 +41,8 @@
 %right UN
 
 %token LPAREN RPAREN LSB RSB LBRACE RBRACE  SEMICOLON COMMA
+
+%token NEXT_LINE
 
 %token DOUBLE_MARK
 
@@ -71,12 +75,30 @@ statement
 ;
 
 scanf
-: SCANF LPAREN DOUBLE_MARK SCANF_TYPE_1_d DOUBLE_MARK COMMA GUIDE IDENTIFIER RPAREN SEMICOLON{
+: SCANF LPAREN DOUBLE_MARK SPF_TYPE_1_d DOUBLE_MARK COMMA GUIDE IDENTIFIER RPAREN SEMICOLON{
 	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
     node->stype=STMT_SCANF;
 	node->addChild($4);
     node->addChild($8);
 	$$=node;
+}
+
+/*
+printf
+: PRINTF_TEXT DOUBLE_MARK COMMA IDENTIFIER RPAREN SEMICOLON{
+	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+	node->stype=STMT_PRINTF;
+	node->addChild($4);
+	$$=node;
+}
+*/
+
+printf
+:  NEXT_LINE DOUBLE_MARK  COMMA IDENTIFIER RPAREN SEMICOLON{
+	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
+    node->stype=STMT_PRINTF;
+    node->addChild($1);
+ 	$$=node;
 }
 
 

@@ -20,6 +20,11 @@ STRING \".+\"
 
 IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 
+printf_text_begin "printf(\""
+printf_text_element .
+printf_text_end "%d"
+%x PRINTF_TEXT
+
 commentbegin "/*"
 commentelement .|\n
 commentend "*/"
@@ -81,10 +86,12 @@ linecommentend \n
 "," return COMMA;
 \"  return DOUBLE_MARK;
 
+\\n return NEXT_LINE;
+
 "printf" return PRINTF;
 "scanf" return SCANF;
 
-"%d" return SCANF_TYPE_1_d;
+"%d" return SPF_TYPE_1_d;
 
 
 
@@ -137,7 +144,17 @@ linecommentend \n
 
 {WHILTESPACE} /* do nothing */
 
-{EOL} lineno++;
+{EOL} {
+	lineno++;	  
+}
+
+{printf_text_begin} {BEGIN PRINTF_TEXT;}
+<PRINTF_TEXT>{printf_text_element} {}
+<PRINTF_TEXT>{printf_text_end} {
+	//cout<<PRINTF_TEXT<<endl;
+	//return PRINTF_TEXT;
+	BEGIN INITIAL;
+}
 
 {commentbegin} {BEGIN COMMENT;}
 <COMMENT>{commentelement} {}
