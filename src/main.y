@@ -425,16 +425,32 @@ expr
 }
 */
 | IDENTIFIER {
-    $$ = $1;
+    //$$ = $1;
+    TreeNode* node = new TreeNode($1->lineno, NODE_VAR);
+    node->vartype=VAR_ID;
+    node->addChild($1);
+    $$ = node;
 }
 | INTEGER {
-    $$ = $1;
+    //$$ = $1;
+    TreeNode* node = new TreeNode($1->lineno, NODE_CONST);
+    node->contype=CON_INT;
+    node->addChild($1);
+    $$ = node;
 }
 | CHAR {
-    $$ = $1;
+    //$$ = $1;
+    TreeNode* node = new TreeNode($1->lineno, NODE_CONST);
+    node->contype=CON_CHAR;
+    node->addChild($1);
+    $$ = node;
 }
 | STRING {
-    $$ = $1;
+    //$$ = $1;
+    TreeNode* node = new TreeNode($1->lineno, NODE_CONST);
+    node->contype=CON_STRING;
+    node->addChild($1);
+    $$ = node;
 }
 ;
 

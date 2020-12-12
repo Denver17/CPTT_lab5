@@ -562,7 +562,7 @@ static const yytype_int16 yyrline[] =
      179,   185,   191,   201,   205,   213,   223,   231,   238,   245,
      252,   259,   273,   280,   288,   289,   301,   308,   314,   321,
      328,   335,   342,   349,   356,   366,   374,   382,   390,   398,
-     405,   411,   427,   430,   433,   436,   441,   442,   443,   444
+     405,   411,   427,   434,   441,   448,   457,   458,   459,   460
 };
 #endif
 
@@ -1962,61 +1962,77 @@ yyreduce:
   case 52:
 #line 427 "src/main.y"
              {
-    yyval = yyvsp[0];
+    //$$ = $1;
+    TreeNode* node = new TreeNode(yyvsp[0]->lineno, NODE_VAR);
+    node->vartype=VAR_ID;
+    node->addChild(yyvsp[0]);
+    yyval = node;
 }
-#line 1968 "src/main.tab.cpp"
+#line 1972 "src/main.tab.cpp"
     break;
 
   case 53:
-#line 430 "src/main.y"
+#line 434 "src/main.y"
           {
-    yyval = yyvsp[0];
-}
-#line 1976 "src/main.tab.cpp"
-    break;
-
-  case 54:
-#line 433 "src/main.y"
-       {
-    yyval = yyvsp[0];
+    //$$ = $1;
+    TreeNode* node = new TreeNode(yyvsp[0]->lineno, NODE_CONST);
+    node->contype=CON_INT;
+    node->addChild(yyvsp[0]);
+    yyval = node;
 }
 #line 1984 "src/main.tab.cpp"
     break;
 
-  case 55:
-#line 436 "src/main.y"
-         {
-    yyval = yyvsp[0];
+  case 54:
+#line 441 "src/main.y"
+       {
+    //$$ = $1;
+    TreeNode* node = new TreeNode(yyvsp[0]->lineno, NODE_CONST);
+    node->contype=CON_CHAR;
+    node->addChild(yyvsp[0]);
+    yyval = node;
 }
-#line 1992 "src/main.tab.cpp"
+#line 1996 "src/main.tab.cpp"
+    break;
+
+  case 55:
+#line 448 "src/main.y"
+         {
+    //$$ = $1;
+    TreeNode* node = new TreeNode(yyvsp[0]->lineno, NODE_CONST);
+    node->contype=CON_STRING;
+    node->addChild(yyvsp[0]);
+    yyval = node;
+}
+#line 2008 "src/main.tab.cpp"
     break;
 
   case 56:
-#line 441 "src/main.y"
+#line 457 "src/main.y"
          {yyval = new TreeNode(lineno, NODE_TYPE); yyval->type = TYPE_INT;}
-#line 1998 "src/main.tab.cpp"
+#line 2014 "src/main.tab.cpp"
     break;
 
   case 57:
-#line 442 "src/main.y"
+#line 458 "src/main.y"
          {yyval = new TreeNode(lineno, NODE_TYPE); yyval->type = TYPE_CHAR;}
-#line 2004 "src/main.tab.cpp"
+#line 2020 "src/main.tab.cpp"
     break;
 
   case 58:
-#line 443 "src/main.y"
+#line 459 "src/main.y"
          {yyval = new TreeNode(lineno, NODE_TYPE); yyval->type = TYPE_BOOL;}
-#line 2010 "src/main.tab.cpp"
+#line 2026 "src/main.tab.cpp"
     break;
 
   case 59:
-#line 444 "src/main.y"
+#line 460 "src/main.y"
          {yyval = new TreeNode(lineno, NODE_TYPE); yyval->type = TYPE_VOID;}
-#line 2016 "src/main.tab.cpp"
+#line 2032 "src/main.tab.cpp"
     break;
 
 
-#line 2020 "src/main.tab.cpp"
+#line 2036 "src/main.tab.cpp"
 
       default: break;
     }
@@ -2248,7 +2264,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 450 "src/main.y"
+#line 466 "src/main.y"
 
 
 int yyerror(char const* message)

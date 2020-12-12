@@ -55,7 +55,14 @@ enum VarType{
     VAR_VOID,
     //VAR_FLOAT,
     VAR_CHAR,
-    VAR_STRING
+    VAR_STRING,
+    VAR_ID
+};
+
+enum ConstType{
+    CON_INT,
+    CON_CHAR,
+    CON_STRING
 };
 
 
@@ -65,6 +72,9 @@ public:
     int nodeID;  // 用于作业的序号输出
     int lineno;
     NodeType nodeType;
+    
+    VarType vartype;
+    ConstType contype;
 
     TreeNode* child = nullptr;
     TreeNode* sibling = nullptr;
@@ -80,7 +90,7 @@ public:
 
     void genNodeId(int& num);
 
-public:
+//public:
     OperatorType optype;  // 如果是表达式
     Type* type;  // 变量、类型、表达式结点，有类型。
     StmtType stype;
