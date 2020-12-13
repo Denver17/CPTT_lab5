@@ -26,7 +26,9 @@
 
 %token IDENTIFIER INTEGER CHAR BOOL STRING
 
-%token AND OR 
+%token OR
+
+%token AND
 
 %token TRUE FALSE
 
@@ -271,16 +273,21 @@ declaration
 
 IDENTIFIERS
 : IDENTIFIER COMMA IDENTIFIERS{
-	TreeNode *node=new TreeNode($1->lineno,NODE_STMT);
-    node->stype=STMT_DECL;
+	TreeNode *node=new TreeNode($1->lineno,NODE_VAR);
+    node->vartype=VAR_ID;
     node->addChild($1);
-    node->addChild($3);
+    //node->addChild($3);
     $$=node; 
 }
 | IDENTIFIER{
-	$$=$1;
+    $$=$1;
+    //TreeNode* node = new TreeNode($1->lineno, NODE_VAR);
+    //node->vartype=VAR_ID;
+    //node->addChild($1);
+    //$$ = node;
 }
 ;
+
 
 
 
@@ -311,16 +318,16 @@ bool_expr
     node->addChild($2);
     $$=node;
 }
-| bool_expr OR bool_expr {
+| bool_expr AND bool_expr {
 	TreeNode *node=new TreeNode($1->lineno,NODE_OP);
-	node->optype=OP_OR;    
+	node->optype=OP_AND;    
 	node->addChild($1);
     node->addChild($3);
     $$=node;
 }
-| bool_expr AND bool_expr {    
+| bool_expr OR bool_expr {    
 	TreeNode *node=new TreeNode($1->lineno,NODE_OP);
-    node->optype=OP_AND;
+    node->optype=OP_OR;
     node->addChild($1);
     node->addChild($3);
     $$=node;
@@ -425,11 +432,11 @@ expr
 }
 */
 | IDENTIFIER {
-    //$$ = $1;
-    TreeNode* node = new TreeNode($1->lineno, NODE_VAR);
-    node->vartype=VAR_ID;
-    node->addChild($1);
-    $$ = node;
+    $$ = $1;
+    //TreeNode* node = new TreeNode($1->lineno, NODE_VAR);
+    //node->vartype=VAR_ID;
+    //node->addChild($1);
+    //$$ = node;
 }
 | INTEGER {
     //$$ = $1;

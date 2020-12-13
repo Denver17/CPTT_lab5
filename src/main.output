@@ -69,8 +69,8 @@
    34          | FALSE
    35          | expr EQ expr
    36          | UN bool_expr
-   37          | bool_expr OR bool_expr
-   38          | bool_expr AND bool_expr
+   37          | bool_expr AND bool_expr
+   38          | bool_expr OR bool_expr
    39          | expr UNEQ expr
    40          | expr BIGGER expr
    41          | expr SMALLER expr
@@ -120,8 +120,8 @@
     CHAR (276) 53
     BOOL (277)
     STRING (278) 54
-    AND (279) 38
-    OR (280) 37
+    OR (279) 38
+    AND (280) 37
     TRUE (281) 33
     FALSE (282) 34
     IF (283) 14 15
@@ -870,11 +870,11 @@
 状态 54
 
    22 bool_statement: LPAREN bool_expr . RPAREN
-   37 bool_expr: bool_expr . OR bool_expr
-   38          | bool_expr . AND bool_expr
+   37 bool_expr: bool_expr . AND bool_expr
+   38          | bool_expr . OR bool_expr
 
-    AND     偏移，并进入状态 80
-    OR      偏移，并进入状态 81
+    OR      偏移，并进入状态 80
+    AND     偏移，并进入状态 81
     RPAREN  偏移，并进入状态 82
 
 
@@ -1133,14 +1133,14 @@
 状态 78
 
    36 bool_expr: UN bool_expr .
-   37          | bool_expr . OR bool_expr
-   38          | bool_expr . AND bool_expr
+   37          | bool_expr . AND bool_expr
+   38          | bool_expr . OR bool_expr
 
-    AND  偏移，并进入状态 80
-    OR   偏移，并进入状态 81
+    OR   偏移，并进入状态 80
+    AND  偏移，并进入状态 81
 
-    AND       [使用规则 36 以归约 (bool_expr)]
     OR        [使用规则 36 以归约 (bool_expr)]
+    AND       [使用规则 36 以归约 (bool_expr)]
     $default  使用规则 36 以归约 (bool_expr)
 
 
@@ -1177,7 +1177,7 @@
 
 状态 80
 
-   38 bool_expr: bool_expr AND . bool_expr
+   38 bool_expr: bool_expr OR . bool_expr
 
     IDENTIFIER  偏移，并进入状态 39
     INTEGER     偏移，并进入状态 40
@@ -1194,7 +1194,7 @@
 
 状态 81
 
-   37 bool_expr: bool_expr OR . bool_expr
+   37 bool_expr: bool_expr AND . bool_expr
 
     IDENTIFIER  偏移，并进入状态 39
     INTEGER     偏移，并进入状态 40
@@ -1331,11 +1331,11 @@
 状态 90
 
    17 for_statement: FOR LPAREN declaration bool_expr . SEMICOLON self_assign RPAREN statement
-   37 bool_expr: bool_expr . OR bool_expr
-   38          | bool_expr . AND bool_expr
+   37 bool_expr: bool_expr . AND bool_expr
+   38          | bool_expr . OR bool_expr
 
-    AND        偏移，并进入状态 80
-    OR         偏移，并进入状态 81
+    OR         偏移，并进入状态 80
+    AND        偏移，并进入状态 81
     SEMICOLON  偏移，并进入状态 110
 
 
@@ -1457,29 +1457,29 @@
 
 状态 101
 
-   37 bool_expr: bool_expr . OR bool_expr
-   38          | bool_expr . AND bool_expr
-   38          | bool_expr AND bool_expr .
+   37 bool_expr: bool_expr . AND bool_expr
+   38          | bool_expr . OR bool_expr
+   38          | bool_expr OR bool_expr .
 
-    AND  偏移，并进入状态 80
-    OR   偏移，并进入状态 81
+    OR   偏移，并进入状态 80
+    AND  偏移，并进入状态 81
 
-    AND       [使用规则 38 以归约 (bool_expr)]
     OR        [使用规则 38 以归约 (bool_expr)]
+    AND       [使用规则 38 以归约 (bool_expr)]
     $default  使用规则 38 以归约 (bool_expr)
 
 
 状态 102
 
-   37 bool_expr: bool_expr . OR bool_expr
-   37          | bool_expr OR bool_expr .
-   38          | bool_expr . AND bool_expr
+   37 bool_expr: bool_expr . AND bool_expr
+   37          | bool_expr AND bool_expr .
+   38          | bool_expr . OR bool_expr
 
-    AND  偏移，并进入状态 80
-    OR   偏移，并进入状态 81
+    OR   偏移，并进入状态 80
+    AND  偏移，并进入状态 81
 
-    AND       [使用规则 37 以归约 (bool_expr)]
     OR        [使用规则 37 以归约 (bool_expr)]
+    AND       [使用规则 37 以归约 (bool_expr)]
     $default  使用规则 37 以归约 (bool_expr)
 
 

@@ -54,6 +54,15 @@ void TreeNode::printNodeInfo() {
     }
     cout<<"  "<<this->nodeID<<"\t"<<nodetype;
 
+	/*
+	if(nodetype=="type")
+	{
+	switch(this->type)
+	{
+	case TYPE_INT: cout<<"\t"<<"int"<<"\t";break;
+	}
+	}
+	*/
 	
 	if(nodetype=="const")
 	{

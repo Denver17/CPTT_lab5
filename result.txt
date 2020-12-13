@@ -1,96 +1,87 @@
 main
-  0	program	child:	1	6	10	14	18	21
+  0	program	child:	1	5	9	13	17	20
   1	statement	decl			child:	2	3
-  6	statement	assign			child:	7	8
-  10	statement	assign			child:	11	12
-  14	statement	decl			child:	15	19	20
-  18	statement	scanf			child:	19	20
-  21	statement	while			child:	22	49	53	56	60	64
-  22	operator	AND			child:	23	28
-  49	statement	assign			child:	50	51
-  53	statement	decl			child:	54	55
-  56	statement	assign			child:	57	58
-  60	statement	assign			child:	61	62
-  64	statement	if			child:	65	71	73	76	80
-  65	operator	SMALLER			child:	66	67	69
-  71	statement	ptintf			child:	72
-  73	statement	decl			child:	74	75
-  76	statement	assign			child:	77	78
-  80	statement	for			child:	81	86	91	93
-  81	statement	decl			child:	82	83	84
-  86	operator	SMALLER			child:	87	89
-  91	statement	self			child:	94
-  93	statement	ptintf			child:	94
-  94	variable		i		child:
-  94	variable		i		child:
-  87	variable	id			child:	88
-  89	variable	id			child:	90
-  90	variable		b		child:
-  88	variable		i		child:
-  82	type	child:
-  83	variable		i		child:
-  84	const		int	0		child:	85
-  85	const		int	0		child:
-  77	variable		b		child:
-  78	const		int	0		child:	79
-  79	const		int	10		child:
-  74	type	child:
-  75	variable		b		child:
-  72	const		int	-10		child:
-  66	expression	child:
-  67	variable	id			child:	68
-  69	const		int	0		child:	72
-  72	const		int	-10		child:
-  68	variable		s		child:
+  5	statement	assign			child:	6	7
+  9	statement	assign			child:	10	11
+  13	statement	decl			child:	14	18	19
+  17	statement	scanf			child:	18	19
+  20	statement	while			child:	21	44	48	51	55	58
+  21	operator	AND			child:	22	26
+  44	statement	assign			child:	45	46
+  48	statement	decl			child:	49	50
+  51	statement	assign			child:	52	53
+  55	statement	assign			child:	56	57
+  58	statement	if			child:	59	64	66	69	73
+  59	operator	SMALLER			child:	60	61	62
+  64	statement	ptintf			child:	65
+  66	statement	decl			child:	67	68
+  69	statement	assign			child:	70	71
+  73	statement	for			child:	74	79	82	84
+  74	statement	decl			child:	75	76	77
+  79	operator	SMALLER			child:	80	81
+  82	statement	self			child:	85
+  84	statement	ptintf			child:	85
+  85	variable		i		child:
+  85	variable		i		child:
+  80	variable		i		child:
+  81	variable		b		child:
+  75	type	child:
+  76	variable		i		child:
+  77	const		int	0		child:	78
+  78	const		int	0		child:
+  70	variable		b		child:
+  71	const		int	0		child:	72
+  72	const		int	10		child:
+  67	type	child:
+  68	variable		b		child:
+  65	const		int	-10		child:
+  60	expression	child:
   61	variable		s		child:
-  62	variable	id			child:	63
-  63	variable		a		child:
+  62	const		int	0		child:	65
+  65	const		int	-10		child:
+  56	variable		s		child:
   57	variable		a		child:
-  58	const		int	0		child:	59
-  59	const		int	10		child:
-  54	type	child:
-  55	variable		a		child:
+  52	variable		a		child:
+  53	const		int	0		child:	54
+  54	const		int	10		child:
+  49	type	child:
   50	variable		a		child:
-  51	const		int	0		child:	52
-  52	const		int	1		child:
-  23	operator	BIGGER			child:	24	26
-  28	operator	OR			child:	29	34
-  29	operator	BIGGER_EQ			child:	30	32
-  34	operator	AND			child:	35	43
-  35	operator	EQ			child:	36	41
-  43	operator	UN			child:	44
-  44	operator	EQ			child:	45	47
-  45	variable	id			child:	46
-  47	const		int	0		child:	48
-  48	const		int	10		child:
-  46	variable		a		child:
-  36	expression	child:	37	39
-  41	const		int	0		child:	42
-  42	const		int	10		child:
-  37	variable	id			child:	38
-  39	const		int	0		child:	40
-  40	const		int	100		child:
-  38	variable		a		child:
-  30	variable	id			child:	31
-  32	const		int	0		child:	33
-  33	const		int	10		child:
-  31	variable		a		child:
-  24	variable	id			child:	25
-  26	const		int	0		child:	27
-  27	const		int	0		child:
-  25	variable		a		child:
+  45	variable		a		child:
+  46	const		int	0		child:	47
+  47	const		int	1		child:
+  22	operator	BIGGER			child:	23	24
+  26	operator	OR			child:	27	31
+  27	operator	BIGGER_EQ			child:	28	29
+  31	operator	AND			child:	32	39
+  32	operator	EQ			child:	33	37
+  39	operator	UN			child:	40
+  40	operator	EQ			child:	41	42
+  41	variable		a		child:
+  42	const		int	0		child:	43
+  43	const		int	10		child:
+  33	expression	child:	34	35
+  37	const		int	0		child:	38
+  38	const		int	10		child:
+  34	variable		a		child:
+  35	const		int	0		child:	36
+  36	const		int	100		child:
+  28	variable		a		child:
+  29	const		int	0		child:	30
+  30	const		int	10		child:
+  23	variable		a		child:
+  24	const		int	0		child:	25
+  25	const		int	0		child:
+  18	variable		ch		child:
   19	variable		ch		child:
-  20	variable		ch		child:
-  15	type	child:
+  14	type	child:
+  18	variable		ch		child:
   19	variable		ch		child:
-  20	variable		ch		child:
-  11	variable		s		child:
-  12	const		int	0		child:	13
-  13	const		int	0		child:
-  7	variable		a		child:
-  8	const		int	0		child:	9
-  9	const		int	10		child:
+  10	variable		s		child:
+  11	const		int	0		child:	12
+  12	const		int	0		child:
+  6	variable		a		child:
+  7	const		int	0		child:	8
+  8	const		int	10		child:
   2	type	child:
-  3	statement	decl			child:	4	5
+  3	variable	id			child:	4
   4	variable		a		child:
-  5	variable		s		child:
